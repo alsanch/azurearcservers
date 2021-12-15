@@ -30,7 +30,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
     - Enables Microsoft Defender for Cloud for Servers at subscription level
     - Enables the notification settings at subscription level
 
-**Note**: for Microsoft Sentinel deployment, please, refer to the project **Azure Sentinel All In One** (https://github.com/Azure/Azure-Sentinel/tree/master/Tools/Sentinel-All-In-One). You could deploy it on the previous Log Analytics Workspace for Security Data.
+**Note**: for **Microsoft Sentinel** deployment, please, refer to the project **Azure Sentinel All In One** (https://github.com/Azure/Azure-Sentinel/tree/master/Tools/Sentinel-All-In-One). You could deploy it on the previous Log Analytics Workspace for Security Data.
 
 ## Requirements
 - **Tested in Powershell 5.1**
@@ -47,7 +47,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
     - **Scope:** scope at which the Azure Policies and the Automation Account managed identity are assigned. Allowed values: "subscription", "resourcegroup"
     - **SecurityCollectionTier:** SecurityEvent logging level. Allowed values: "All", "Recommended", "Minimal", "None"
 2. **Run DeployAzureArcMVP.ps1**
-3. The Log Analytics Agent will be deployed in your Azure Arc Servers through the assigned Azure Policies.
+3. The **Log Analytics Agent** will be deployed in your Azure Arc Servers through the assigned Azure Policies.
 
 **Note**: you can enable/disable what's deployed in this framework by using the deployment variables within DeployAzureArcMVP.ps1.
 

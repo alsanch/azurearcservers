@@ -1,0 +1,374 @@
+{
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workbookDisplayName": {
+            "type": "string",
+            "defaultValue": "Azure Monitor Alerts",
+            "metadata": {
+                "description": "The friendly name for the workbook that is used in the Gallery or Saved List.  This name must be unique within a resource group."
+            }
+        },
+        "workbookType": {
+            "type": "string",
+            "defaultValue": "workbook",
+            "metadata": {
+                "description": "The gallery that the workbook will been shown under. Supported values include workbook, tsg, etc. Usually, this is 'workbook'"
+            }
+        },
+        "workbookSourceId": {
+            "type": "string",
+            "defaultValue": "azure monitor",
+            "metadata": {
+                "description": "The id of resource instance to which the workbook will be associated"
+            }
+        },
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Workspace name"
+            }
+        }
+    },
+    "variables": {
+        "workbookContent": {
+            "version": "Notebook/1.0",
+            "items": [
+                {
+                    "type": 9,
+                    "content": {
+                        "version": "KqlParameterItem/1.0",
+                        "crossComponentResources": [
+                            "{Subscription}"
+                        ],
+                        "parameters": [
+                            {
+                                "id": "1f74ed9a-e3ed-498d-bd5b-f68f3836a117",
+                                "version": "KqlParameterItem/1.0",
+                                "name": "Subscription",
+                                "label": "Subscriptions",
+                                "type": 6,
+                                "isRequired": true,
+                                "multiSelect": true,
+                                "quote": "'",
+                                "delimiter": ",",
+                                "value": [
+                                    "[subscription().id]"
+                                ],
+                                "typeSettings": {
+                                    "additionalResourceOptions": [
+                                        "value::all"
+                                    ],
+                                    "includeAll": false,
+                                    "showDefault": false
+                                }
+                            },
+                            {
+                                "id": "b616a3a3-4271-4208-b1a9-a92a78efed08",
+                                "version": "KqlParameterItem/1.0",
+                                "name": "ResourceGroups",
+                                "label": "Resource groups",
+                                "type": 2,
+                                "isRequired": true,
+                                "multiSelect": true,
+                                "quote": "'",
+                                "delimiter": ",",
+                                "query": "Resources\r\n| summarize by resourceGroup\r\n| order by resourceGroup asc\r\n| project id=resourceGroup, resourceGroup",
+                                "crossComponentResources": [
+                                    "{Subscription}"
+                                ],
+                                "value": [
+                                    "value::all"
+                                ],
+                                "typeSettings": {
+                                    "additionalResourceOptions": [
+                                        "value::all"
+                                    ],
+                                    "selectAllValue": "*"
+                                },
+                                "queryType": 1,
+                                "resourceType": "microsoft.resourcegraph/resources"
+                            },
+                            {
+                                "id": "0e85e0e4-a7e8-4ea8-b291-e444c317843a",
+                                "version": "KqlParameterItem/1.0",
+                                "name": "ResourceTypes",
+                                "label": "Resource types",
+                                "type": 7,
+                                "isRequired": true,
+                                "multiSelect": true,
+                                "quote": "'",
+                                "delimiter": ",",
+                                "query": "where \"*\" in ({ResourceGroups}) or resourceGroup in ({ResourceGroups})\r\n| summarize by type\r\n| project type, label=type\r\n",
+                                "crossComponentResources": [
+                                    "{Subscription}"
+                                ],
+                                "value": [
+                                    "value::all"
+                                ],
+                                "typeSettings": {
+                                    "additionalResourceOptions": [
+                                        "value::all"
+                                    ],
+                                    "selectAllValue": "*"
+                                },
+                                "queryType": 1,
+                                "resourceType": "microsoft.resourcegraph/resources"
+                            },
+                            {
+                                "id": "f60ea0a0-3703-44ca-a59b-df0246423f41",
+                                "version": "KqlParameterItem/1.0",
+                                "name": "Resources",
+                                "type": 5,
+                                "isRequired": true,
+                                "multiSelect": true,
+                                "quote": "'",
+                                "delimiter": ",",
+                                "query": "Resources\r\n| where \"*\" in ({ResourceTypes}) or type in~({ResourceTypes})\r\n| where '*' in~({ResourceGroups}) or resourceGroup in~({ResourceGroups}) \r\n| order by name asc\r\n| extend Rank = row_number()\r\n| project value = id, label = name, selected = Rank <= 10, group = resourceGroup",
+                                "crossComponentResources": [
+                                    "{Subscription}"
+                                ],
+                                "value": [
+                                    "value::all"
+                                ],
+                                "typeSettings": {
+                                    "additionalResourceOptions": [
+                                        "value::all"
+                                    ],
+                                    "selectAllValue": "*",
+                                    "defaultItemsText": "First 10"
+                                },
+                                "queryType": 1,
+                                "resourceType": "microsoft.resourcegraph/resources"
+                            },
+                            {
+                                "id": "015d1a5e-357f-4e01-ac77-598e7b493db0",
+                                "version": "KqlParameterItem/1.0",
+                                "name": "timeRange",
+                                "label": "Time Range",
+                                "type": 4,
+                                "isRequired": true,
+                                "value": {
+                                    "durationMs": 2592000000
+                                },
+                                "typeSettings": {
+                                    "selectableValues": [
+                                        {
+                                            "durationMs": 300000
+                                        },
+                                        {
+                                            "durationMs": 900000
+                                        },
+                                        {
+                                            "durationMs": 1800000
+                                        },
+                                        {
+                                            "durationMs": 3600000
+                                        },
+                                        {
+                                            "durationMs": 14400000
+                                        },
+                                        {
+                                            "durationMs": 43200000
+                                        },
+                                        {
+                                            "durationMs": 86400000
+                                        },
+                                        {
+                                            "durationMs": 172800000
+                                        },
+                                        {
+                                            "durationMs": 259200000
+                                        },
+                                        {
+                                            "durationMs": 604800000
+                                        },
+                                        {
+                                            "durationMs": 1209600000
+                                        },
+                                        {
+                                            "durationMs": 2419200000
+                                        },
+                                        {
+                                            "durationMs": 2592000000
+                                        }
+                                    ],
+                                    "allowCustom": true
+                                }
+                            },
+                            {
+                                "id": "bd6d6075-dc8f-43d3-829f-7e2245a3eb21",
+                                "version": "KqlParameterItem/1.0",
+                                "name": "State",
+                                "type": 2,
+                                "isRequired": true,
+                                "multiSelect": true,
+                                "quote": "'",
+                                "delimiter": ",",
+                                "query": "{\"version\":\"1.0.0\",\"content\":\"[ \\r\\n    {\\\"id\\\":\\\"New\\\", \\\"label\\\": \\\"New\\\"},\\r\\n    {\\\"id\\\":\\\"Acknowledged\\\", \\\"label\\\": \\\"Acknowledged\\\"},\\r\\n    {\\\"id\\\":\\\"Closed\\\", \\\"label\\\": \\\"Closed\\\"}\\r\\n]\",\"transformers\":null}",
+                                "crossComponentResources": [
+                                    "{Subscription}"
+                                ],
+                                "value": [
+                                    "value::all"
+                                ],
+                                "typeSettings": {
+                                    "additionalResourceOptions": [
+                                        "value::all"
+                                    ],
+                                    "selectAllValue": "*",
+                                    "showDefault": false
+                                },
+                                "queryType": 8
+                            }
+                        ],
+                        "style": "above",
+                        "queryType": 1,
+                        "resourceType": "microsoft.resourcegraph/resources"
+                    },
+                    "name": "parameters"
+                },
+                {
+                    "type": 3,
+                    "content": {
+                        "version": "KqlItem/1.0",
+                        "query": "AlertsManagementResources \r\n| where type =~ 'microsoft.alertsmanagement/alerts'\r\n| where properties.essentials.startDateTime {timeRange}  \r\n| where properties.essentials.actionStatus.isSuppressed == false\r\n| extend Severity=tostring(properties.essentials.severity)\r\n| extend State=tostring(properties.essentials.alertState)\r\n| extend comp = properties.context.context.condition.allOf[0].dimensions\r\n| mvexpand comp\r\n| where comp.name == 'Computer' or comp.name == 'TestConfigurationName' or isnull(comp)\r\n| where \"*\" in ({State}) or State in ({State})\r\n| where \"*\" in ({ResourceTypes}) or properties.essentials.targetResourceType in~ ({ResourceTypes})\r\n| where \"*\" in ({ResourceGroups}) or properties.essentials.targetResourceGroup in~ ({ResourceGroups})\r\n| where \"*\" in ({Resources}) or properties.essentials.targetResource in~ ({Resources})\r\n| project AlertId=id, StartTime=todatetime(tostring(properties.essentials.startDateTime)), Name=name, Severity, State=tostring(properties.essentials.alertState), MonitorCondition=tostring(properties.essentials.monitorCondition), SignalType=tostring(properties.essentials.signalType), TargetResource = split(comp.value, '.')[0]\r\n| order by StartTime desc\r\n",
+                        "size": 0,
+                        "title": "Azure Monitor alerts",
+                        "queryType": 1,
+                        "resourceType": "microsoft.resourcegraph/resources",
+                        "crossComponentResources": [
+                            "{Subscription}"
+                        ],
+                        "gridSettings": {
+                            "formatters": [
+                                {
+                                    "columnMatch": "AlertId",
+                                    "formatter": 5
+                                },
+                                {
+                                    "columnMatch": "StartTime",
+                                    "formatter": 6
+                                },
+                                {
+                                    "columnMatch": "Name",
+                                    "formatter": 1,
+                                    "formatOptions": {
+                                        "linkTarget": "OpenBlade",
+                                        "linkIsContextBlade": true,
+                                        "bladeOpenContext": {
+                                            "bladeName": "AlertDetailsTemplateBlade",
+                                            "extensionName": "Microsoft_Azure_Monitoring",
+                                            "bladeParameters": [
+                                                {
+                                                    "name": "alertId",
+                                                    "source": "column",
+                                                    "value": "AlertId"
+                                                },
+                                                {
+                                                    "name": "alertName",
+                                                    "source": "column",
+                                                    "value": "Name"
+                                                },
+                                                {
+                                                    "name": "invokedFrom",
+                                                    "source": "static",
+                                                    "value": "Workbooks"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "tooltipFormat": {
+                                        "tooltip": "View alert details"
+                                    }
+                                },
+                                {
+                                    "columnMatch": "Severity",
+                                    "formatter": 11
+                                },
+                                {
+                                    "columnMatch": "State",
+                                    "formatter": 1
+                                },
+                                {
+                                    "columnMatch": "MonitorCondition",
+                                    "formatter": 18,
+                                    "formatOptions": {
+                                        "thresholdsOptions": "icons",
+                                        "thresholdsGrid": [
+                                            {
+                                                "operator": "==",
+                                                "thresholdValue": "Fired",
+                                                "representation": "Fired",
+                                                "text": "{0}{1}"
+                                            },
+                                            {
+                                                "operator": "==",
+                                                "thresholdValue": "Resolved",
+                                                "representation": "Resolved",
+                                                "text": "{0}{1}"
+                                            },
+                                            {
+                                                "operator": "Default",
+                                                "thresholdValue": null,
+                                                "representation": "success",
+                                                "text": "{0}{1}"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "columnMatch": "TargetResource",
+                                    "formatter": 13,
+                                    "formatOptions": {
+                                        "linkTarget": null,
+                                        "showIcon": true
+                                    }
+                                },
+                                {
+                                    "columnMatch": "ResourceType",
+                                    "formatter": 16,
+                                    "formatOptions": {
+                                        "showIcon": true
+                                    }
+                                },
+                                {
+                                    "columnMatch": "Resource Type",
+                                    "formatter": 11
+                                },
+                                {
+                                    "columnMatch": "essentials",
+                                    "formatter": 5
+                                }
+                            ]
+                        }
+                    },
+                    "showPin": true,
+                    "name": "query - 3"
+                }
+            ],
+            "isLocked": false,
+            "fallbackResourceIds": [
+                "azure monitor"
+            ]
+        }
+    },
+    "resources": [
+        {
+            "name": "[guid(parameters('workbookDisplayName'))]",
+            "type": "microsoft.insights/workbooks",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2021-03-08",
+            "dependsOn": [],
+            "kind": "shared",
+            "properties": {
+                "displayName": "[parameters('workbookDisplayName')]",
+                "serializedData": "[string(variables('workbookContent'))]",
+                "version": "1.0",
+                "sourceId": "[parameters('workbookSourceId')]",
+                "category": "[parameters('workbookType')]"
+            }
+        }
+    ],
+    "outputs": {},
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
+}

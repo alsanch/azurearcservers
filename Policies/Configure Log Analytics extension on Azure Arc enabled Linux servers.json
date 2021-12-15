@@ -1,0 +1,88 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Workspace name"
+            }
+        },
+        "resourceGroupID": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource Group ID"
+            }
+        },
+        "policyAssignmentName": {
+            "type": "string",
+            "defaultValue": "[guid(parameters('policyDefinitionID'), parameters('workspaceName'))]",
+            "metadata": {
+                "description": "Specifies the name of the policy assignment, can be used defined or an idempotent name as the defaultValue provides."
+            }
+        },
+        "policyDescription": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Specifies the description of the policy assignment."
+            }
+        },
+        "policyDefinitionID": {
+            "type": "string",
+            "defaultValue": "/providers/Microsoft.Authorization/policyDefinitions/9d2b61b4-1d14-4a63-be30-d4498e7ad2cf",
+            "metadata": {
+                "description": "Specifies the ID of the policy definition or policy set definition being assigned."
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "westeurope",
+            "metadata": {
+                "description": "Specifies the location in which to create the managed identity."
+            }
+        }
+    },
+    "variables": {
+        "assignmentName": "[replace(substring(parameters('policyAssignmentName'), 0, 63), ' ', '')]",
+        "LogAnalyticsContributor": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '92aaf0da-9dab-42b6-94a3-d43ce8d16293')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "apiVersion": "2021-06-01",
+            "name": "[variables('assignmentName')]",
+            "location": "[parameters('location')]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "policyDefinitionId": "[parameters('policyDefinitionID')]",
+                "notScopes": [],
+                "description": "[parameters('policyDescription')]",
+                "displayName": "[parameters('policyAssignmentName')]",
+                "enforcementMode": "Default",
+                "metadata": {},
+                "nonComplianceMessages": [],
+                "parameters": {
+                    "logAnalytics": {
+                        "value": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-09-01-preview",
+            "name": "[guid(concat(variables('assignmentName'),parameters('resourceGroupID')))]",
+            "properties": {
+                "roleDefinitionId": "[variables('LogAnalyticsContributor')]",
+                "principalId": "[reference(resourceId('Microsoft.Authorization/policyAssignments', variables('assignmentName')),'2019-09-01', 'full').identity.principalId]",
+                "principalType": "ServicePrincipal"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/policyAssignments', variables('assignmentName'))]"
+            ]
+        }
+    ]
+}

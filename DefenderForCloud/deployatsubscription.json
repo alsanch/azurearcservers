@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "emails": {
+            "type": "string"
+        },
+        "alertNotificationsState": {
+            "type": "string",
+            "defaultValue": "On",
+            "allowedValues": [
+                "On",
+                "Off"
+            ]
+        },
+        "alertNotificationsMinimalSeverity": {
+            "type": "string",
+            "defaultValue": "Low",
+            "allowedValues": [
+                "High",
+                "Medium",
+                "Low"
+            ]
+        },
+        "notificationsByRoleState": {
+            "type": "string",
+            "defaultValue": "On",
+            "allowedValues": [
+                "On",
+                "Off"
+            ]
+        },
+        "notificationsByRoleRoles": {
+            "type": "Array",
+            "defaultValue": [
+                "Owner"
+            ],
+            "allowedValues": [
+                "Owner",
+                "AccountAdmin",
+                "ServiceAdmin",
+                "Contributor"
+            ]
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "VirtualMachines",
+            "type": "Microsoft.Security/pricings",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "pricingTier": "Standard"
+            }
+        },
+        {
+            "name": "default",
+            "type": "Microsoft.Security/securityContacts",
+            "apiVersion": "2020-01-01-preview",
+            "properties": {
+                "emails": "[parameters('emails')]",
+                "alertNotifications": {
+                    "state": "[parameters('alertNotificationsState')]",
+                    "minimalSeverity": "[parameters('alertNotificationsMinimalSeverity')]"
+                },
+                "notificationsByRole": {
+                    "state": "[parameters('notificationsByRoleState')]",
+                    "roles": "[parameters('notificationsByRoleRoles')]"
+                }
+            }
+        }
+    ]
+}

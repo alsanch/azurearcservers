@@ -1,0 +1,91 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the workspace."
+            }
+        },
+        "sku": {
+            "type": "string",
+            "allowedValues": [
+                "pergb2018"
+            ],
+            "defaultValue": "pergb2018",
+            "metadata": {
+                "description": "Pricing tier: PerGB2018 or legacy tiers (Free, Standalone, PerNode, Standard or Premium) which are not available to all customers."
+            }
+        },
+        "location": {
+            "type": "string",
+            "allowedValues": [
+                "australiacentral",
+                "australiaeast",
+                "australiasoutheast",
+                "brazilsouth",
+                "canadacentral",
+                "centralindia",
+                "centralus",
+                "eastasia",
+                "eastus",
+                "eastus2",
+                "francecentral",
+                "japaneast",
+                "koreacentral",
+                "northcentralus",
+                "northeurope",
+                "southafricanorth",
+                "southcentralus",
+                "southeastasia",
+                "switzerlandnorth",
+                "switzerlandwest",
+                "uksouth",
+                "ukwest",
+                "westcentralus",
+                "westeurope",
+                "westus",
+                "westus2"
+            ],
+            "defaultValue": "westeurope",
+            "metadata": {
+                "description": "Specifies the location for the workspace."
+            }
+        },
+        "retentionInDays": {
+            "type": "int",
+            "defaultValue": 31,
+            "metadata": {
+                "description": "Number of days to retain data."
+            }
+        },
+        "resourcePermissions": {
+            "type": "bool",
+            "defaultvalue": true,
+            "metadata": {
+                "description": "true to use resource or workspace permissions. false to require workspace permissions."
+            }
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2020-08-01",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "name": "[parameters('workspaceName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "sku": {
+                    "Name": "[parameters('sku')]"
+                },
+                "retentionInDays": "[parameters('retentionInDays')]",
+                "features": {
+                    "searchVersion": 1,
+                    "legacy": 0,
+                    "enableLogAccessUsingOnlyResourcePermissions": "[parameters('resourcePermissions')]"
+                }
+            },
+            "resources": []
+        }
+    ]
+}

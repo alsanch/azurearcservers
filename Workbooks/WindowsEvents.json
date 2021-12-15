@@ -1,0 +1,553 @@
+{
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workbookDisplayName": {
+            "type": "string",
+            "defaultValue": "Event Logs",
+            "metadata": {
+                "description": "The friendly name for the workbook that is used in the Gallery or Saved List.  This name must be unique within a resource group."
+            }
+        },
+        "workbookType": {
+            "type": "string",
+            "defaultValue": "workbook",
+            "metadata": {
+                "description": "The gallery that the workbook will been shown under. Supported values include workbook, tsg, etc. Usually, this is 'workbook'"
+            }
+        },
+        "workbookSourceId": {
+            "type": "string",
+            "defaultValue": "azure monitor",
+            "metadata": {
+                "description": "The id of resource instance to which the workbook will be associated"
+            }
+        },
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Workspace name"
+            }
+        }
+    },
+    "variables": {
+        "workbookContent": {
+            "version": "Notebook/1.0",
+            "items": [
+                {
+                    "type": 1,
+                    "content": {
+                        "json": "# Event Logs"
+                    },
+                    "name": "text - 7"
+                },
+                {
+                    "type": 9,
+                    "content": {
+                        "version": "KqlParameterItem/1.0",
+                        "crossComponentResources": [
+                            "value::all"
+                        ],
+                        "parameters": [
+                            {
+                                "id": "2cf5311e-e4c3-4cbd-91d9-94f2e139ed50",
+                                "version": "KqlParameterItem/1.0",
+                                "name": "TimeRange",
+                                "type": 4,
+                                "value": {
+                                    "durationMs": 604800000
+                                },
+                                "typeSettings": {
+                                    "selectableValues": [
+                                        {
+                                            "durationMs": 3600000
+                                        },
+                                        {
+                                            "durationMs": 86400000
+                                        },
+                                        {
+                                            "durationMs": 604800000
+                                        },
+                                        {
+                                            "durationMs": 2592000000
+                                        }
+                                    ]
+                                },
+                                "timeContext": {
+                                    "durationMs": 0
+                                },
+                                "timeContextFromParameter": "TimeRange"
+                            },
+                            {
+                                "id": "b31e4dd2-f34c-4455-86e7-9d7785586ba2",
+                                "version": "KqlParameterItem/1.0",
+                                "name": "Workspace",
+                                "type": 5,
+                                "isRequired": true,
+                                "multiSelect": true,
+                                "quote": "'",
+                                "delimiter": ",",
+                                "query": "where type =~ 'microsoft.operationalinsights/workspaces'\r\n| summarize by id, name\r\n",
+                                "crossComponentResources": [
+                                    "value::all"
+                                ],
+                                "value": [
+                                    "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
+                                ],
+                                "typeSettings": {
+                                    "additionalResourceOptions": []
+                                },
+                                "queryType": 1,
+                                "resourceType": "microsoft.resourcegraph/resources"
+                            }
+                        ],
+                        "style": "pills",
+                        "queryType": 1,
+                        "resourceType": "microsoft.resourcegraph/resources"
+                    },
+                    "name": "parameters - 2"
+                },
+                {
+                    "type": 3,
+                    "content": {
+                        "version": "KqlItem/1.0",
+                        "query": "Event\r\n|  where EventLog in (\"System\",\"Application\",\"Operations Manager\")\r\n| project EventLog,EventLevelName\r\n| evaluate pivot(EventLevelName)",
+                        "size": 1,
+                        "showAnalytics": true,
+                        "title": "Windows Events - Summary",
+                        "timeContext": {
+                            "durationMs": 0
+                        },
+                        "timeContextFromParameter": "TimeRange",
+                        "exportFieldName": "EventLog",
+                        "exportParameterName": "EventLog",
+                        "queryType": 0,
+                        "resourceType": "microsoft.operationalinsights/workspaces",
+                        "crossComponentResources": [
+                            "{Workspace}"
+                        ],
+                        "gridSettings": {
+                            "formatters": [
+                                {
+                                    "columnMatch": "Information",
+                                    "formatter": 18,
+                                    "formatOptions": {
+                                        "showIcon": true,
+                                        "thresholdsOptions": "icons",
+                                        "thresholdsGrid": [
+                                            {
+                                                "operator": "Default",
+                                                "thresholdValue": null,
+                                                "representation": "info",
+                                                "text": "{0}{1}"
+                                            }
+                                        ],
+                                        "aggregation": "Unique"
+                                    },
+                                    "numberFormat": {
+                                        "unit": 0,
+                                        "options": {
+                                            "style": "decimal"
+                                        }
+                                    }
+                                },
+                                {
+                                    "columnMatch": "Warning",
+                                    "formatter": 18,
+                                    "formatOptions": {
+                                        "showIcon": true,
+                                        "thresholdsOptions": "icons",
+                                        "thresholdsGrid": [
+                                            {
+                                                "operator": "Default",
+                                                "thresholdValue": null,
+                                                "representation": "warning",
+                                                "text": "{0}{1}"
+                                            }
+                                        ],
+                                        "aggregation": "Unique"
+                                    },
+                                    "numberFormat": {
+                                        "unit": 0,
+                                        "options": {
+                                            "style": "decimal"
+                                        }
+                                    }
+                                },
+                                {
+                                    "columnMatch": "Error",
+                                    "formatter": 18,
+                                    "formatOptions": {
+                                        "showIcon": true,
+                                        "thresholdsOptions": "icons",
+                                        "thresholdsGrid": [
+                                            {
+                                                "operator": "Default",
+                                                "thresholdValue": null,
+                                                "representation": "3",
+                                                "text": "{0}{1}"
+                                            }
+                                        ],
+                                        "aggregation": "Unique"
+                                    },
+                                    "numberFormat": {
+                                        "unit": 0,
+                                        "options": {
+                                            "style": "decimal"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "customWidth": "50",
+                    "showPin": true,
+                    "name": "query - 0"
+                },
+                {
+                    "type": 3,
+                    "content": {
+                        "version": "KqlItem/1.0",
+                        "query": "Event\r\n|  where EventLog == \"{EventLog}\" and EventID != 0\r\n| summarize count() by bin(TimeGenerated, 1h),EventLevelName\r\n| sort by TimeGenerated desc\r\n",
+                        "size": 0,
+                        "showAnalytics": true,
+                        "title": "Events count hourly distribution",
+                        "timeContext": {
+                            "durationMs": 0
+                        },
+                        "timeContextFromParameter": "TimeRange",
+                        "queryType": 0,
+                        "resourceType": "microsoft.operationalinsights/workspaces",
+                        "crossComponentResources": [
+                            "{Workspace}"
+                        ],
+                        "visualization": "areachart",
+                        "chartSettings": {
+                            "seriesLabelSettings": [
+                                {
+                                    "seriesName": "Information",
+                                    "color": "blue"
+                                },
+                                {
+                                    "seriesName": "Warning",
+                                    "color": "yellow"
+                                },
+                                {
+                                    "seriesName": "Error",
+                                    "color": "red"
+                                }
+                            ]
+                        }
+                    },
+                    "customWidth": "50",
+                    "showPin": true,
+                    "name": "query - 6"
+                },
+                {
+                    "type": 3,
+                    "content": {
+                        "version": "KqlItem/1.0",
+                        "query": "Event\r\n|  where EventLog == \"{EventLog}\" and EventLevelName == \"Error\"\r\n| summarize Count=count() by Computer, EventLog, EventLevelName\r\n| sort by Count\r\n",
+                        "size": 0,
+                        "showAnalytics": true,
+                        "title": "Error Events",
+                        "timeContext": {
+                            "durationMs": 0
+                        },
+                        "timeContextFromParameter": "TimeRange",
+                        "exportedParameters": [
+                            {
+                                "fieldName": "Computer",
+                                "parameterName": "Computer",
+                                "parameterType": 1
+                            },
+                            {
+                                "fieldName": "EventLog",
+                                "parameterName": "EventLog",
+                                "parameterType": 1
+                            },
+                            {
+                                "fieldName": "Count",
+                                "parameterName": "Count",
+                                "parameterType": 1
+                            },
+                            {
+                                "fieldName": "EventLevelName",
+                                "parameterName": "EventLevelName",
+                                "parameterType": 1
+                            }
+                        ],
+                        "queryType": 0,
+                        "resourceType": "microsoft.operationalinsights/workspaces",
+                        "crossComponentResources": [
+                            "{Workspace}"
+                        ],
+                        "visualization": "table",
+                        "gridSettings": {
+                            "formatters": [
+                                {
+                                    "columnMatch": "EventLog",
+                                    "formatter": 5,
+                                    "formatOptions": {
+                                        "showIcon": true
+                                    }
+                                },
+                                {
+                                    "columnMatch": "EventLevelName",
+                                    "formatter": 5,
+                                    "formatOptions": {
+                                        "showIcon": true
+                                    }
+                                },
+                                {
+                                    "columnMatch": "Count",
+                                    "formatter": 8,
+                                    "formatOptions": {
+                                        "min": 0,
+                                        "palette": "red",
+                                        "showIcon": true
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "customWidth": "33",
+                    "showPin": true,
+                    "name": "query - 3"
+                },
+                {
+                    "type": 3,
+                    "content": {
+                        "version": "KqlItem/1.0",
+                        "query": "Event\r\n|  where EventLog == \"{EventLog}\" and EventLevelName == \"Warning\"\r\n| summarize Count=count() by Computer, EventLog,EventLevelName\r\n| sort by Count\r\n",
+                        "size": 0,
+                        "showAnalytics": true,
+                        "title": "Warning Events",
+                        "timeContext": {
+                            "durationMs": 0
+                        },
+                        "timeContextFromParameter": "TimeRange",
+                        "exportedParameters": [
+                            {
+                                "fieldName": "Computer",
+                                "parameterName": "Computer",
+                                "parameterType": 1
+                            },
+                            {
+                                "fieldName": "EventLog",
+                                "parameterName": "EventLog",
+                                "parameterType": 1
+                            },
+                            {
+                                "fieldName": "Count",
+                                "parameterName": "Count",
+                                "parameterType": 1
+                            },
+                            {
+                                "fieldName": "EventLevelName",
+                                "parameterName": "EventLevelName",
+                                "parameterType": 1
+                            }
+                        ],
+                        "queryType": 0,
+                        "resourceType": "microsoft.operationalinsights/workspaces",
+                        "crossComponentResources": [
+                            "{Workspace}"
+                        ],
+                        "visualization": "table",
+                        "gridSettings": {
+                            "formatters": [
+                                {
+                                    "columnMatch": "EventLog",
+                                    "formatter": 5,
+                                    "formatOptions": {
+                                        "showIcon": true
+                                    }
+                                },
+                                {
+                                    "columnMatch": "EventLevelName",
+                                    "formatter": 5,
+                                    "formatOptions": {
+                                        "showIcon": true
+                                    }
+                                },
+                                {
+                                    "columnMatch": "Count",
+                                    "formatter": 8,
+                                    "formatOptions": {
+                                        "min": 0,
+                                        "palette": "yellow",
+                                        "showIcon": true
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "customWidth": "34",
+                    "showPin": true,
+                    "name": "query - 2"
+                },
+                {
+                    "type": 3,
+                    "content": {
+                        "version": "KqlItem/1.0",
+                        "query": "Event\r\n|  where EventLog == \"{EventLog}\" and EventLevelName == \"Information\"\r\n| summarize Count=count() by Computer, EventLog,EventLevelName\r\n| sort by Count\r\n",
+                        "size": 0,
+                        "showAnalytics": true,
+                        "title": "Information Events",
+                        "timeContext": {
+                            "durationMs": 0
+                        },
+                        "timeContextFromParameter": "TimeRange",
+                        "exportedParameters": [
+                            {
+                                "fieldName": "Computer",
+                                "parameterName": "Computer",
+                                "parameterType": 1
+                            },
+                            {
+                                "fieldName": "EventLog",
+                                "parameterName": "EventLog",
+                                "parameterType": 1
+                            },
+                            {
+                                "fieldName": "Count",
+                                "parameterName": "Count",
+                                "parameterType": 1
+                            },
+                            {
+                                "fieldName": "EventLevelName",
+                                "parameterName": "EventLevelName",
+                                "parameterType": 1
+                            }
+                        ],
+                        "queryType": 0,
+                        "resourceType": "microsoft.operationalinsights/workspaces",
+                        "crossComponentResources": [
+                            "{Workspace}"
+                        ],
+                        "visualization": "table",
+                        "gridSettings": {
+                            "formatters": [
+                                {
+                                    "columnMatch": "EventLog",
+                                    "formatter": 5,
+                                    "formatOptions": {
+                                        "showIcon": true
+                                    }
+                                },
+                                {
+                                    "columnMatch": "EventLevelName",
+                                    "formatter": 5,
+                                    "formatOptions": {
+                                        "showIcon": true
+                                    }
+                                },
+                                {
+                                    "columnMatch": "Count",
+                                    "formatter": 8,
+                                    "formatOptions": {
+                                        "min": 0,
+                                        "palette": "blue",
+                                        "showIcon": true
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "customWidth": "33",
+                    "showPin": true,
+                    "name": "query - 4"
+                },
+                {
+                    "type": 3,
+                    "content": {
+                        "version": "KqlItem/1.0",
+                        "query": "Event\r\n|  where EventLog == \"{EventLog}\" and EventLevelName == \"{EventLevelName}\" and Computer == \"{Computer}\" and EventID != 0\r\n| project TimeGenerated,Computer, EventLog, [\"Level\"]=EventLevelName, [\"Rendered Description\"]=RenderedDescription\r\n| sort by Computer, EventLog, [\"Level\"]\r\n\r\n",
+                        "size": 0,
+                        "showAnalytics": true,
+                        "title": "Event ID Description",
+                        "timeContext": {
+                            "durationMs": 0
+                        },
+                        "timeContextFromParameter": "TimeRange",
+                        "queryType": 0,
+                        "resourceType": "microsoft.operationalinsights/workspaces",
+                        "crossComponentResources": [
+                            "{Workspace}"
+                        ],
+                        "visualization": "table",
+                        "gridSettings": {
+                            "formatters": [
+                                {
+                                    "columnMatch": "Level",
+                                    "formatter": 18,
+                                    "formatOptions": {
+                                        "showIcon": true,
+                                        "thresholdsOptions": "icons",
+                                        "thresholdsGrid": [
+                                            {
+                                                "operator": "==",
+                                                "thresholdValue": "Error",
+                                                "representation": "error",
+                                                "text": "{0}{1}"
+                                            },
+                                            {
+                                                "operator": "==",
+                                                "thresholdValue": "Warning",
+                                                "representation": "2",
+                                                "text": "{0}{1}"
+                                            },
+                                            {
+                                                "operator": "==",
+                                                "thresholdValue": "Information",
+                                                "representation": "info",
+                                                "text": "{0}{1}"
+                                            },
+                                            {
+                                                "operator": "Default",
+                                                "thresholdValue": null,
+                                                "representation": "success",
+                                                "text": "{0}{1}"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "tileSettings": {
+                            "showBorder": false
+                        },
+                        "graphSettings": {
+                            "type": 0
+                        }
+                    },
+                    "showPin": true,
+                    "name": "query - 5"
+                }
+            ],
+            "isLocked": false,
+            "fallbackResourceIds": [
+                "Azure Monitor"
+            ]
+        }
+    },
+    "resources": [
+        {
+            "name": "[guid(parameters('workbookDisplayName'))]",
+            "type": "microsoft.insights/workbooks",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2021-03-08",
+            "dependsOn": [],
+            "kind": "shared",
+            "properties": {
+                "displayName": "[parameters('workbookDisplayName')]",
+                "serializedData": "[string(variables('workbookContent'))]",
+                "version": "1.0",
+                "sourceId": "[parameters('workbookSourceId')]",
+                "category": "[parameters('workbookType')]"
+            }
+        }
+    ],
+    "outputs": {},
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
+}

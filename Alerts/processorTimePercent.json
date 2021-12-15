@@ -1,0 +1,255 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Workspace name"
+            }
+        },
+        "convertRuleName": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "Processor Time Percent",
+            "metadata": {
+                "description": "Name of the rule to convert log to metric"
+            }
+        },
+        "convertRuleDescription": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "Metrics from logs alert",
+            "metadata": {
+                "description": "Description for log converted to metric"
+            }
+        },
+        "location": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Name of the region used by workspace"
+            }
+        },
+        "convertRuleStatus": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+                "description": "Specifies whether the log conversion rule is enabled"
+            }
+        },
+        "convertRuleMetric": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "Average_% Processor Time",
+            "metadata": {
+                "description": "Name of the metric once extraction done from logs."
+            }
+        },
+        "alertName": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "Processor Time Percent",
+            "metadata": {
+                "description": "Name of the alert"
+            }
+        },
+        "alertDescription": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Description of alert"
+            }
+        },
+        "alertSeverity": {
+            "type": "int",
+            "defaultValue": 2,
+            "allowedValues": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ],
+            "metadata": {
+                "description": "Severity of alert {0,1,2,3,4}"
+            }
+        },
+        "isEnabled": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Specifies whether the alert is enabled"
+            }
+        },
+        "metricName": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "Average_% Processor Time",
+            "metadata": {
+                "description": "Name of the metric used in the comparison to activate the alert."
+            }
+        },
+        "operator": {
+            "type": "string",
+            "defaultValue": "GreaterThan",
+            "allowedValues": [
+                "Equals",
+                "NotEquals",
+                "GreaterThan",
+                "GreaterThanOrEqual",
+                "LessThan",
+                "LessThanOrEqual"
+            ],
+            "metadata": {
+                "description": "Operator comparing the current value with the threshold value."
+            }
+        },
+        "threshold": {
+            "type": "string",
+            "defaultValue": "80",
+            "metadata": {
+                "description": "The threshold value at which the alert is activated."
+            }
+        },
+        "timeAggregation": {
+            "type": "string",
+            "defaultValue": "Average",
+            "allowedValues": [
+                "Average",
+                "Minimum",
+                "Maximum",
+                "Total"
+            ],
+            "metadata": {
+                "description": "How the data that is collected should be combined over time."
+            }
+        },
+        "windowSize": {
+            "type": "string",
+            "defaultValue": "PT5M",
+            "metadata": {
+                "description": "Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one day. ISO 8601 duration format."
+            }
+        },
+        "evaluationFrequency": {
+            "type": "string",
+            "defaultValue": "PT5M",
+            "metadata": {
+                "description": "how often the metric alert is evaluated represented in ISO 8601 duration format"
+            }
+        },
+        "actionGroupName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The ID of the action group that is triggered when the alert is activated or deactivated"
+            }
+        }
+    },
+    "variables": {
+        "convertRuleTag": "hidden-link:",
+        "objectName": "Processor"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Insights/scheduledQueryRules",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[parameters('convertRuleName')]",
+            "location": "[parameters('location')]",
+            "tags": {
+                "[concat(variables('convertRuleTag'),resourceId('microsoft.operationalinsights/workspaces',parameters('workspaceName')))]": "Resource"
+            },
+            "kind": "LogToMetric",
+            "properties": {
+                "displayName": "[parameters('convertRuleName')]",
+                "description": "[parameters('convertRuleDescription')]",
+                "enabled": "[parameters('convertRuleStatus')]",
+                "scopes": [
+                    "[resourceId('microsoft.operationalinsights/workspaces',parameters('workspaceName'))]"
+                ],
+                "criteria": {
+                    "allOf": [
+                        {
+                            "metricName": "[parameters('metricName')]",
+                            "dimensions": [
+                                {
+                                    "name": "Computer",
+                                    "operator": "Include",
+                                    "values": [
+                                        "*"
+                                    ]
+                                },
+                                {
+                                    "name": "ObjectName",
+                                    "operator": "Include",
+                                    "values": [
+                                        "[variables('objectName')]"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Insights/metricAlerts",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('alertName')]",
+            "location": "global",
+            "tags": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.Insights/scheduledQueryRules',parameters('convertRuleName'))]"
+            ],
+            "properties": {
+                "severity": "[parameters('alertSeverity')]",
+                "enabled": "[parameters('isEnabled')]",
+                "scopes": [
+                    "[resourceId('microsoft.operationalinsights/workspaces',parameters('workspaceName'))]"
+                ],
+                "description": "[parameters('alertDescription')]",
+                "evaluationFrequency": "[parameters('evaluationFrequency')]",
+                "windowSize": "[parameters('windowSize')]",
+                "criteria": {
+                    "allOf": [
+                        {
+                            "threshold": "[parameters('threshold')]",
+                            "name": "Metric1",
+                            "metricNamespace": "Microsoft.OperationalInsights/workspaces",
+                            "metricName": "[parameters('metricName')]",
+                            "dimensions": [
+                                {
+                                    "name": "Computer",
+                                    "operator": "Include",
+                                    "values": [
+                                        "*"
+                                    ]
+                                },
+                                {
+                                    "name": "ObjectName",
+                                    "operator": "Include",
+                                    "values": [
+                                        "[variables('objectName')]"
+                                    ]
+                                }
+                            ],
+                            "operator": "[parameters('operator')]",
+                            "timeAggregation": "[parameters('timeAggregation')]",
+                            "criterionType": "StaticThresholdCriterion"
+                        }
+                    ],
+                    "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+                },
+                "autoMitigate": true,
+                "targetResourceType": "Microsoft.OperationalInsights/workspaces",
+                "targetResourceRegion": "westeurope",
+                "actions": [
+                    {
+                        "actionGroupId": "[resourceId('microsoft.insights/actiongroups',parameters('actionGroupName'))]"
+                    }
+                ]
+            }
+        }
+    ]
+}

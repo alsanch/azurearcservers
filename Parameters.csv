@@ -1,0 +1,2 @@
+"Subscription","Resourcegroup","NamingPrefix", "Location", "Email", "Scope", "SecurityCollectionTier"
+"My Azure Subscription","rg-azurearcmvp","asg","westeurope", "mymail@mail.com", "resourcegroup", "Recommended"

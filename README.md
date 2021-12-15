@@ -48,6 +48,7 @@ This framework:
     - **Scope:** scope at which the Azure Policies and the Automation Account managed identity are assigned. Allowed values: "subscription", "resourcegroup"
     - **SecurityCollectionTier:** SecurityEvent logging level. Allowed values: "All", "Recommended", "Minimal", "None"
 2. **Run DeployAzureArcMVP.ps1**
+3. The Log Analytics Agent will be deployed in your Azure Arc Servers through the assigned Azure Policies.
 
 **Note**: you can enable/disable what's deployed in this framework by using the deployment variables within DeployAzureArcMVP.ps1.
 

@@ -2,29 +2,28 @@
 Azure Arc enables you to manage your entire environment, with a single pane of glass, by projecting your existing non-Azure, on-premises, or other-cloud resources into Azure Resource Manager. The first step is to onboard your on-premises servers into Azure Arc. Once your on-premises servers are onboarded, you can benefit from native Azure services like Azure Policy, Azure Monitor, and Azure Automation. This project helps you on deploying a Minimum Valuable Product (MVP) of these Azure Services. 
 
 ## What resources are deployed?
-This framework:
-- **Deploys a Log Analytics Workspace for Azure Monitor**
-- **Deploys Data Sources in the Log Analytics Workspace for Azure Monitor**
+- **Log Analytics Workspace for Azure Monitor**
+- **Data Sources in the Log Analytics Workspace for Azure Monitor**
     - **Windows Events:** System, Application
     - **Windows Performance Counters:** LogicalDisk(*)\% Processor Time; LogicalDisk(*)\% Processor Time; LogicalDisk(*)\Avg. Disk sec/Write; LogicalDisk(*)\Current Disk Queue Length; LogicalDisk(*)\Current Disk Queue Length; LogicalDisk(*)\Disk Transfers/sec; LogicalDisk(*)\Disk Writes/sec; LogicalDisk(*)\Free Megabytes; Memory(*)\% Committed Bytes In Use; Memory(*)\Available MBytes; Network Adapter(*)\Bytes Received/sec; Network Adapter(*)\Bytes Sent/sec; Network Adapter(*)\Bytes Sent/sec; Process(*)\% Processor Time; Process(*)\% Processor Time; System(*)\Processor Queue Length
     - **Linux Performance Counters:** Logical Disk(*)\% Used Inodes; Logical Disk(*)\% Used Space; Logical Disk(*)\Disk Reads/sec; Logical Disk(*)\Disk Transfers/sec; Logical Disk(*)\Disk Transfers/sec; Logical Disk(*)\Free Megabytes; Memory(*)\% Used Memory; Memory(*)\% Used Swap Space; Memory(*)\Available MBytes Memory; Network(*)\Total Bytes Received; Network(*)\Total Bytes Transmitted; Processor(*)\%Privileged Time; Processor(*)\% Processor Time
     - **Syslog:** daemon; kern
-- **Deploys an Automation Account, links it to the Log Analytics Workspace for Azure Monitor, and includes:**
+- **Automation Account, links it to the Log Analytics Workspace for Azure Monitor, and includes:**
     - Change Tracking with "Enable on all available and future machines" enabled
     - Inventory with "Enable on all available and future machines" enabled
     - Update Management with "Enable on all available and future machines" enabled
     - Runbook called AutoRemediatePolicyLAAgentAzureArcServers.ps1, that triggers a remediation task for policies "Configure Log Analytics extension on Azure Arc enabled Windows/Linux servers" where there are pending resources to be remediated
       - Schedule to trigger the runbook once per day at 23:00:00 local time
       - Managed Identity with Resource Policy Contributor permissions at subscription level to trigger the remediation task
-- **Deploy an Azure Monitor action group with an email action**
-- **Deploys Azure Monitor alerts based on log analytics workspace metrics:** processorTimePercent; commitedBytesInUsePercent; logicalDiskFreeSpacePercent
-- **Deploys Azure Workbooks:** AlertsConsole; OSPerformanceAndCapacity; WindowsEvents; WindowsUpdates
-- **Deploys an Azure Dashboard that provides a monitoring overview for your Azure Arc Servers**
-- **Deploys three Azure Policies, with auto-remediation enabled and a system managed identity assigned:**
+- **Azure Monitor action group with an email action**
+- **Azure Monitor alerts based on log analytics workspace metrics:** processorTimePercent; commitedBytesInUsePercent; logicalDiskFreeSpacePercent
+- **Azure Workbooks:** AlertsConsole; OSPerformanceAndCapacity; WindowsEvents; WindowsUpdates
+- **Azure Dashboard that provides a monitoring overview for your Azure Arc Servers**
+- **Azure Policies, with auto-remediation enabled and a system managed identity assigned:**
     - Configure Log Analytics extension on Azure Arc enabled Windows servers
     - Configure Log Analytics extension on Azure Arc enabled Linux servers
     - Configure Arc-enabled machines running SQL Server to have SQL Server extension installed
-- **Deploys the required settings for Microsoft Defender for Cloud & Azure Arc Servers**
+- **Required settings for Microsoft Defender for Cloud & Azure Arc Servers**
     - Deploys a Log Analyics Workspace for Security data
     - Enables the Security insights solution in the Log Analyics Workspace for Security data
     - Enables the collection of Security Events in the Log Analyics Workspace for Security data

@@ -33,10 +33,13 @@ $policyDefinitionNames = @('69af7d4a-7b18-4044-93a9-2651498ef203','9d2b61b4-1d14
 if($resourceGroup)
 {
     # at resourceGroupLevel
+    Write-Output "Getting non-compliant policies at resource group level..."
     $nonCompliantPolicies = Get-AzPolicyState -ResourceGroupName $resourceGroup | Where-Object { $_.ComplianceState -eq "NonCompliant" -and $_.PolicyDefinitionName -in $policyDefinitionNames -and $_.PolicyDefinitionAction -eq "deployIfNotExists" }
 }
+else
 {
     # at subscriptionLevel
+    Write-Output "Getting non-compliant policies at subscription level..."
     $nonCompliantPolicies = Get-AzPolicyState | Where-Object { $_.ComplianceState -eq "NonCompliant" -and $_.PolicyDefinitionName -in $policyDefinitionNames -and $_.PolicyDefinitionAction -eq "deployIfNotExists" }
 }
 

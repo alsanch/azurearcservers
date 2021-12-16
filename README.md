@@ -46,7 +46,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
     - **Email:** email account used in the Action Group for alerts and in the the notification settings for Microsoft Defender for Cloud
     - **Scope:** scope at which the Azure Policies and the Automation Account managed identity are assigned. Allowed values: "subscription", "resourcegroup"
     - **SecurityCollectionTier:** SecurityEvent logging level. Allowed values: "All", "Recommended", "Minimal", "None"
-2. Open PowerShell and change your location to the project directory
+2. Open PowerShell and **change your working directory** to the project directory
 3. **Run DeployAzureArcMVP.ps1**
 4. The **Log Analytics Agent** will be deployed in your Azure Arc Servers through the assigned Azure Policies.
 

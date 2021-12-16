@@ -115,9 +115,16 @@ if($deployAutomationAccount -eq $true)
     $TimeZone = ([System.TimeZoneInfo]::Local).Id
     New-AzAutomationSchedule -AutomationAccountName $automationAccountName -Name $scheduleName -StartTime $StartTime -ExpiryTime `
     $EndTime -DayInterval 1 -ResourceGroupName $resourceGroup -TimeZone $TimeZone | Out-null
-
-    Register-AzAutomationScheduledRunbook -AutomationAccountName $automationAccountName `
-    -Name $runbookName -ScheduleName $scheduleName -ResourceGroupName $resourceGroup | Out-null
+    if($managedIdentityScope -eq "subscription")
+    {
+        Register-AzAutomationScheduledRunbook -AutomationAccountName $automationAccountName `
+        -Name $runbookName -ScheduleName $scheduleName -ResourceGroupName $resourceGroup | Out-null
+    }
+    elseif($managedIdentityScope -eq "resourcegroup") {
+        Register-AzAutomationScheduledRunbook -AutomationAccountName $automationAccountName `
+        -Name $runbookName -ScheduleName $scheduleName -ResourceGroupName $resourceGroup `
+        -Parameters @{"resourceGroup"=$resourceGroup} | Out-null
+    }    
 
     # Get automation account managed identity and assign permissions to remediate policies at subscription level
     $principalId = (Get-AzAutomationAccount -ResourceGroupName $resourceGroup -Name $automationAccountName).Identity.PrincipalId

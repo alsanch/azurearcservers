@@ -8,6 +8,12 @@
         LASTEDIT: Nov 22, 2021
 #>
 
+Param
+(
+  [Parameter (Mandatory= $false)]
+  [String] $resourceGroup
+)
+
 "Please enable appropriate RBAC permissions to the system identity of this automation account. Otherwise, the runbook may fail..."
 
 try
@@ -24,7 +30,15 @@ catch {
 $policyDefinitionNames = @('69af7d4a-7b18-4044-93a9-2651498ef203','9d2b61b4-1d14-4a63-be30-d4498e7ad2cf')
 
 # get all non-compliant policies that can be remediated
-$nonCompliantPolicies = Get-AzPolicyState | Where-Object { $_.ComplianceState -eq "NonCompliant" -and $_.PolicyDefinitionName -in $policyDefinitionNames -and $_.PolicyDefinitionAction -eq "deployIfNotExists" }
+if($resourceGroup)
+{
+    # at resourceGroupLevel
+    $nonCompliantPolicies = Get-AzPolicyState -ResourceGroupName $resourceGroup | Where-Object { $_.ComplianceState -eq "NonCompliant" -and $_.PolicyDefinitionName -in $policyDefinitionNames -and $_.PolicyDefinitionAction -eq "deployIfNotExists" }
+}
+{
+    # at subscriptionLevel
+    $nonCompliantPolicies = Get-AzPolicyState | Where-Object { $_.ComplianceState -eq "NonCompliant" -and $_.PolicyDefinitionName -in $policyDefinitionNames -and $_.PolicyDefinitionAction -eq "deployIfNotExists" }
+}
 
 # loop through and start individual tasks per policy 
 foreach ($policy in $nonCompliantPolicies) {

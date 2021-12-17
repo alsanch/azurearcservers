@@ -1,5 +1,7 @@
 # Azure Arc Servers - Minimum Valuable Product (MVP)
-Azure Arc enables you to manage your entire environment, with a single pane of glass, by projecting your existing non-Azure, on-premises, or other-cloud resources into Azure Resource Manager. The first step is to onboard your on-premises servers into Azure Arc. Once your on-premises servers are onboarded, you can benefit from native Azure services like Azure Policy, Azure Monitor, and Azure Automation. This project helps you on deploying a Minimum Valuable Product (MVP) of these Azure Services. Note that the Azure Services deployed in this framework could also be used for Azure VMs as long as they are connected to the Log Analytics Workspace for Azure Monitor. 
+Azure Arc enables you to manage your entire environment, with a single pane of glass, by projecting your existing non-Azure, on-premises, or other-cloud resources into Azure Resource Manager. The first step is to onboard your on-premises servers into Azure Arc. Once your on-premises servers are onboarded, you can benefit from native Azure services like Azure Policy, Azure Monitor, and Azure Automation. This project helps you on deploying a Minimum Valuable Product (MVP) of these Azure Services. 
+
+**Note:** the Azure Services deployed in this framework could also be used for Azure VMs as long as they are connected to the Log Analytics Workspace for Azure Monitor. 
 
 ## What resources are deployed?
 - **Log Analytics Workspace for Azure Monitor**

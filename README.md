@@ -64,4 +64,3 @@ Coming soon...
 - **Azure Arc-enabled servers:** https://docs.microsoft.com/en-us/azure/azure-arc/servers/
 - **Azure Arc Jumpstart:** https://azurearcjumpstart.io/
 - **Jumpstart ArcBox:** https://azurearcjumpstart.io/azure_jumpstart_arcbox/
-- **Arc Deployment by GPO:** https://dev.azure.com/racarbvs/Arc-GPODeployment

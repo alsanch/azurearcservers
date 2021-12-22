@@ -55,6 +55,9 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
 **Note**: you can enable/disable what's deployed in this framework by using the deployment variables within DeployAzureArcMVP.ps1.
 
 ## Limitations
+- The following two Azure Policies will not work if the servers already have a connection to a Log Analytics workspace (multi-homing is not supported in the MMA extension)
+    - Configure Log Analytics extension on Azure Arc enabled Windows servers
+    - Configure Log Analytics extension on Azure Arc enabled Linux servers
 - The framework does not deploy a second log analytics connection from the Azure Arc Servers to the Security Log Analytis Workspace. (Work in Progress)
 
 ## Screenshots

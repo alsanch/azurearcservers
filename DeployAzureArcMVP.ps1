@@ -52,7 +52,7 @@ Write-Host ""
 Write-Host -ForegroundColor Cyan "Deploying the Monitor Log Analytics Workspace"
 if($deployMonitorLAW -eq $true)
 {
-    $deploymentName = "Deploy_$($parametersFileInput.MonitorWSName)"
+    $deploymentName = "deploy_monitor_loganalytics_workspace"
     $templateFile = ".\MonitorLogAnalyticsWorkspace\deploy.json"
         
     # Deploy the workspace
@@ -70,7 +70,7 @@ Write-Host ""
 Write-Host -ForegroundColor Cyan "Deploying Data Sources in the Monitor the Log Analytics Workspace"
 if($deployMonitorLAWDataSources -eq $true)
 {
-    $deploymentName = "Deploy_DataSources"
+    $deploymentName = "deploy_data_sources"
     $templateFile = ".\MonitorLogAnalyticsWorkspace\DataSources\deploy.json"
 
     # Deploy the data sources
@@ -87,7 +87,7 @@ Write-Host ""
 Write-Host -ForegroundColor Cyan "Deploying the Automation Account and related resources"
 if($deployAutomationAccount -eq $true)
 {
-    $deploymentName = "AutomationAccount"
+    $deploymentName = "deploy_automation_account"
     $templateFile = ".\AutomationAccount\deploy.json"
     $managedIdentityScope = $parametersFileInput.Scope
 
@@ -147,7 +147,7 @@ Write-Host ""
 Write-Host -ForegroundColor Cyan "Deploying Azure Monitor Action Group"
 if($deployActionGroup -eq $true)
 {
-    $deploymentName = "Deploy_ActionGroup"
+    $deploymentName = "deploy_action_group"
     $templateFile = ".\ActionGroup\deploy.json"
     $emailAddress = $parametersFileInput.Email
         
@@ -175,7 +175,7 @@ if($deployAlerts -eq $true)
     {
         $alertName = $($alert.Name).Split(".")[0]
         $templateFile = "$templateBasePath\$($alert.Name)"
-        $deploymentName = $("import_alert_$alertName").ToLower()
+        $deploymentName = $("deploy_alert_$alertName").ToLower()
 
         # Deploy this alert
         Write-Host "Deploying alert: $alertName"
@@ -202,7 +202,7 @@ if($deployWorkbooks -eq $true)
     {
         $workbookName = $($workbook.Name).Split(".")[0]
         $templateFile = "$templateBasePath\$($workbook.Name)"
-        $deploymentName = $("import_workbook_$workbookName").ToLower()
+        $deploymentName = $("Deploy_Workbook_$workbookName").ToLower()
 
         # Deploy this workbook
         Write-Host "Deploying workbook $workbookName"
@@ -220,7 +220,7 @@ Write-Host ""
 Write-Host -ForegroundColor Cyan "Deploying the Azure Dashboard"
 if($deployDashboard -eq $true)
 {
-    $deploymentName = "Deploy_AzureDashboard"
+    $deploymentName = "deploy_azure_dashboard"
     $templateFile = ".\Dashboard\deploy.json"
 
     # Deploy the Azure Dashboard
@@ -250,7 +250,7 @@ if($deployAzurePolicies -eq $true)
     {
         $azurePolicyName = $($azurePolicyItem.Name).Split(".")[0]
         $templateFile = "$templateBasePath\$($azurePolicyItem.Name)"
-        $deploymentName = "AssignPolicy_$($azurePolicyName)".Replace(' ','')
+        $deploymentName = "assign_policy_$($azurePolicyName)".Replace(' ','')
         $deploymentName = $deploymentName.substring(0, [System.Math]::Min(63, $deploymentName.Length))
 
         # Assign the policy at resource group/subscription scope
@@ -279,8 +279,8 @@ if($deployDefenderForCloud -eq $true)
 {
     $templateFile = ".\DefenderForCloud\deploy.json"
     $templateFileAtSubscription = ".\DefenderForCloud\deployatsubscription.json"
-    $deploymentName = "Deploy_MicrosoftDefenderforCloudresources"
-    $deploymentNameAtSubscription = "Deploy_DefenderForCloudSubscriptionSettings"
+    $deploymentName = "deploy_defenderforcloud_resources"
+    $deploymentNameAtSubscription = "deploy_defenderforcloud_subscriptionsettings"
     $emailAddress = $parametersFileInput.Email
     $securityCollectionTier = $parametersFileInput.securityCollectionTier
        

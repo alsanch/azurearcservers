@@ -20,7 +20,9 @@
             }
         }
     },
-    "variables": {},
+    "variables": {
+        "singlequote": "'"
+    },
     "resources": [
         {
             "type": "Microsoft.Portal/dashboards",
@@ -203,7 +205,7 @@
                                         },
                                         {
                                             "name": "PinName",
-                                            "value": "Azure Monitor Alarms",
+                                            "value": "Azure Monitor Alerts",
                                             "isOptional": true
                                         },
                                         {
@@ -225,7 +227,7 @@
                                                     "isGlobal": false,
                                                     "labelValue": "[subscription().displayName]",
                                                     "displayName": "Subscriptions",
-                                                    "formattedValue": "[subscription().id]"
+                                                    "formattedValue": "[concat(variables('singlequote'), subscription().id, variables('singlequote'))]"
                                                 },
                                                 "ResourceGroups": {
                                                     "type": 2,
@@ -238,7 +240,7 @@
                                                     "isGlobal": false,
                                                     "labelValue": "[resourceGroup().name]",
                                                     "displayName": "Resource groups",
-                                                    "formattedValue": "[resourceGroup().name]"
+                                                    "formattedValue": "[concat(variables('singlequote'), resourceGroup().name, variables('singlequote'))]"
                                                 },
                                                 "ResourceTypes": {
                                                     "type": 7,

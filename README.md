@@ -20,6 +20,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
     - **Windows Performance Counters:** LogicalDisk(*)\% Processor Time; LogicalDisk(*)\% Processor Time; LogicalDisk(*)\Avg. Disk sec/Write; LogicalDisk(*)\Current Disk Queue Length; LogicalDisk(*)\Current Disk Queue Length; LogicalDisk(*)\Disk Transfers/sec; LogicalDisk(*)\Disk Writes/sec; LogicalDisk(*)\Free Megabytes; Memory(*)\% Committed Bytes In Use; Memory(*)\Available MBytes; Network Adapter(*)\Bytes Received/sec; Network Adapter(*)\Bytes Sent/sec; Network Adapter(*)\Bytes Sent/sec; Process(*)\% Processor Time; Process(*)\% Processor Time; System(*)\Processor Queue Length
     - **Linux Performance Counters:** Logical Disk(*)\% Used Inodes; Logical Disk(*)\% Used Space; Logical Disk(*)\Disk Reads/sec; Logical Disk(*)\Disk Transfers/sec; Logical Disk(*)\Disk Transfers/sec; Logical Disk(*)\Free Megabytes; Memory(*)\% Used Memory; Memory(*)\% Used Swap Space; Memory(*)\Available MBytes Memory; Network(*)\Total Bytes Received; Network(*)\Total Bytes Transmitted; Processor(*)\%Privileged Time; Processor(*)\% Processor Time
     - **Syslog:** daemon; kern
+- **VM insights in the Log Analytics Workspace for Azure Monitor**
 - **Automation Account, links it to the Log Analytics Workspace for Azure Monitor, and includes:**
     - Change Tracking with "Enable on all available and future machines" enabled
     - Inventory with "Enable on all available and future machines" enabled
@@ -34,6 +35,8 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
 - **Azure Policies, with auto-remediation enabled and a system managed identity assigned:**
     - Configure Log Analytics extension on Azure Arc enabled Windows servers
     - Configure Log Analytics extension on Azure Arc enabled Linux servers
+    - Configure Dependency agent on Azure Arc enabled Windows servers
+    - Configure Dependency agent on Azure Arc enabled Linux servers
     - Configure Arc-enabled machines running SQL Server to have SQL Server extension installed
 - **Required settings for Microsoft Defender for Cloud & Azure Arc Servers**
     - Deploys a Log Analyics Workspace for Security data
@@ -60,7 +63,6 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
     - **SecurityCollectionTier:** SecurityEvent logging level. Allowed values: "All", "Recommended", "Minimal", "None"
 2. Open PowerShell and **change your working directory** to the project directory
 3. **Run DeployAzureArcMVP.ps1**
-4. The **Log Analytics Agent** will be deployed in your Azure Arc Servers through the assigned Azure Policies.
 
 **Note**: you can enable/disable what's deployed in this framework by using the deployment variables within DeployAzureArcMVP.ps1.
 

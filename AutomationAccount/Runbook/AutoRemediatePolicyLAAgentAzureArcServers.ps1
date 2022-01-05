@@ -27,7 +27,7 @@ catch {
 }
 
 # Definition name for policy Configure Log Analytics extension on Azure Arc enabled Windows/Linux servers
-$policyDefinitionNames = @('69af7d4a-7b18-4044-93a9-2651498ef203','9d2b61b4-1d14-4a63-be30-d4498e7ad2cf')
+$policyDefinitionNames = @('69af7d4a-7b18-4044-93a9-2651498ef203','9d2b61b4-1d14-4a63-be30-d4498e7ad2cf', 'deacecc0-9f84-44d2-bb82-46f32d766d43', '91cb9edd-cd92-4d2f-b2f2-bdd8d065a3d4')
 
 # get all non-compliant policies that can be remediated
 if($resourceGroup)

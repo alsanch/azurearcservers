@@ -44,7 +44,7 @@
         }
     },
     "variables": {
-        "assignmentName": "[replace(substring(parameters('policyAssignmentName'), 0, 63), ' ', '')]",
+        "assignmentName": "[guid(parameters('policyDefinitionID'), parameters('workspaceName'))]",
         "LogAnalyticsContributor": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '92aaf0da-9dab-42b6-94a3-d43ce8d16293')]",
         "UserAccessAdministrator": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9')]"
     },

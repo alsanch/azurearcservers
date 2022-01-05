@@ -1,6 +1,7 @@
 # Deployment Variables to choose what to deploy
 $deployMonitorLAW = $true
 $deployMonitorLAWDataSources = $true
+$deployMonitorVMInsights = $true
 $deployAutomationAccount = $true
 $deployActionGroup = $true
 $deployAlerts = $true
@@ -77,6 +78,23 @@ if($deployMonitorLAWDataSources -eq $true)
     Write-Host "Deploying data sources for $MonitorWSName"
     New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName $resourceGroup -TemplateFile $templateFile `
     -workspaceName $MonitorWSName | Out-Null
+}
+else {
+    Write-Host "Skipped"
+}
+
+### Enable LA Monitor VM Insights solution
+Write-Host ""
+Write-Host -ForegroundColor Cyan "Deploying VMInsights in the Monitor the Log Analytics Workspace"
+if($deployMonitorVMInsights -eq $true)
+{
+    $deploymentName = "deploy_vminsights"
+    $templateFile = ".\VMInsights\deploy.json"
+
+    # Deploy VM Insights solution
+    Write-Host "Deploying VMInsights solution for $MonitorWSName"
+    New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName $resourceGroup -TemplateFile $templateFile `
+    -workspaceName $MonitorWSName -location $location | Out-Null
 }
 else {
     Write-Host "Skipped"

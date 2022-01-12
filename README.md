@@ -25,7 +25,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
     - Change Tracking with "Enable on all available and future machines" enabled
     - Inventory with "Enable on all available and future machines" enabled
     - Update Management with "Enable on all available and future machines" enabled
-    - Runbook called AutoRemediatePolicyLAAgentAzureArcServers.ps1, that triggers a remediation task for policies "Configure Log Analytics extension on Azure Arc enabled Windows/Linux servers" where there are pending resources to be remediated
+    - Runbook called AutoRemediatePolicyLAAgentAzureArcServers.ps1, that triggers a remediation task for the policies "Configure Log Analytics extension on Azure Arc enabled Windows/Linux servers" and "Configure Dependency agent on Azure Arc enabled Windows/Linux servers" when there are pending resources to be remediated
       - Schedule to trigger the runbook once per day at 23:00:00 local time
       - Managed Identity with Resource Policy Contributor permissions at subscription level to trigger the remediation task
 - **Azure Monitor action group with an email action**

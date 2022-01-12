@@ -49,7 +49,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
 
 ## Requirements
 - **Tested in Powershell 5.1**
-- **Azure Permissions:** Owner (required to assign a role to the Automation Account managed identity). Required at subscription level if Microsoft Defender for Cloud is deployed. Otherwise, at resource group level
+- **Azure Permissions:** Owner (required to assign the role Resource Policy Contributor to the Automation Account managed identity). Required at subscription level if Microsoft Defender for Cloud is deployed. Otherwise, at resource group level
 - **Azure AD Permissions:** User
 
 ## Deployment steps

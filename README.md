@@ -64,7 +64,8 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
     - **Scope:** scope at which the Azure Policies and the Automation Account managed identity permissions are assigned. Allowed values: "subscription", "resourcegroup"
     - **SecurityCollectionTier:** SecurityEvent logging level. Allowed values: "All", "Recommended", "Minimal", "None"
 2. Open PowerShell and **change your working directory** to the project directory
-3. **Run DeployAzureArcMVP.ps1**
+3. Run **Login-AzAccount**
+4. Run **DeployAzureArcMVP.ps1**
 
 **Note**: you can enable/disable what's deployed in this framework by using the deployment variables within DeployAzureArcMVP.ps1.
 

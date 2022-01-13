@@ -41,7 +41,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
 - **Required settings for Microsoft Defender for Cloud & Azure Arc Servers**
     - Deploys a Log Analyics Workspace for Security data
     - Enables the Security insights solution in the Log Analyics Workspace for Security data
-    - Enables the collection of Security Events in the Log Analyics Workspace for Security data
+    - Enables the collection of Security Events in the Log Analytics Workspace for Security data
     - Enables Microsoft Defender for Cloud for Servers at subscription level
     - Enables the notification settings at subscription level
 

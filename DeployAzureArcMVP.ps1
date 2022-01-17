@@ -120,7 +120,8 @@ if($deployAutomationAccount -eq $true)
     $runbookType = "PowerShell"
     $runbookCodePath = ".\AutomationAccount\Runbook\AutoRemediatePolicyLAAgentAzureArcServers.ps1"
     Write-Host "Importing the required runbooks"
-    Import-AzAutomationRunbook -AutomationAccountName $automationAccountName -ResourceGroupName $resourceGroup  -Name $runbookName `    -Type $runbookType -Path $runbookCodePath | Out-null 
+    Import-AzAutomationRunbook -AutomationAccountName $automationAccountName -ResourceGroupName $resourceGroup  -Name $runbookName `
+    -Type $runbookType -Path $runbookCodePath | Out-null 
            
     Write-Host "Publishing the required runbooks"
     Publish-AzAutomationRunbook -AutomationAccountName $automationAccountName -ResourceGroupName $resourceGroup -Name $runbookName | Out-null
@@ -266,6 +267,11 @@ if($deployAzurePolicies -eq $true)
     # Assign the policies
     foreach ($azurePolicyItem in $azurePoliciesCollection)
     {
+        # Skip DependencyAgent Policies if VMInsights is not required
+        if(($deployMonitorVMInsights -eq $false) -And ($azurePolicyItem -like "*Dependency*" -eq $true)){
+            continue
+        }
+
         $azurePolicyName = $($azurePolicyItem.Name).Split(".")[0]
         $templateFile = "$templateBasePath\$($azurePolicyItem.Name)"
         $deploymentName = "assign_policy_$($azurePolicyName)".Replace(' ','')

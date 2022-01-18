@@ -241,11 +241,12 @@ if($deployDashboard -eq $true)
 {
     $deploymentName = "deploy_azure_dashboard"
     $templateFile = ".\Dashboard\deploy.json"
+    $dashboardName = "Azure Arc Dashboard - " + $namingPrefix
 
     # Deploy the Azure Dashboard
     Write-Host "Deploying the Azure Dashboard"
     New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName $resourceGroup -TemplateFile $templateFile `
-    -workspaceName $MonitorWSName -location $location | Out-Null    
+    -workspaceName $MonitorWSName -location $location -dashboardName $dashboardName | Out-Null    
 }
 else {
     Write-Host "Skipped"

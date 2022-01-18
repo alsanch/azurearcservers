@@ -1,0 +1,186 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Workspace name"
+            }
+        },
+        "location": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Name of the region used by workspace"
+            }
+        },
+        "alertName": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "Unexpected System Shutdown",
+            "metadata": {
+                "description": "Name of the alert"
+            }
+        },
+        "actionGroupName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The ID of the action group that is triggered when the alert is activated or deactivated"
+            }
+        },
+        "isEnabled": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Specifies whether the alert rule is enabled"
+            }
+        },
+        "autoMitigate": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Specifies whether the alert will automatically resolve"
+            }
+        },
+        "alertDescription": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Description of alert"
+            }
+        },
+        "alertSeverity": {
+            "type": "int",
+            "defaultValue": 2,
+            "allowedValues": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ],
+            "metadata": {
+                "description": "Severity of alert {0,1,2,3,4}"
+            }
+        },
+        "operator": {
+            "type": "string",
+            "defaultValue": "GreaterThan",
+            "allowedValues": [
+                "Equals",
+                "NotEquals",
+                "GreaterThan",
+                "GreaterThanOrEqual",
+                "LessThan",
+                "LessThanOrEqual"
+            ],
+            "metadata": {
+                "description": "Operator comparing the current value with the threshold value."
+            }
+        },
+        "threshold": {
+            "type": "string",
+            "defaultValue": "0",
+            "metadata": {
+                "description": "The threshold value at which the alert is activated."
+            }
+        },
+        "numberOfEvaluationPeriods": {
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+                "description": "The number of periods to check in the alert evaluation."
+            }
+        },
+        "minFailingPeriodsToAlert": {
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+                "description": "The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods)."
+            }
+        },
+        "timeAggregation": {
+            "type": "string",
+            "defaultValue": "Count",
+            "allowedValues": [
+                "Average",
+                "Minimum",
+                "Maximum",
+                "Count",
+                "Total"
+            ],
+            "metadata": {
+                "description": "How the data that is collected should be combined over time."
+            }
+        },
+        "windowSize": {
+            "type": "string",
+            "defaultValue": "PT5M",
+            "metadata": {
+                "description": "Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one day. ISO 8601 duration format."
+            }
+        },
+        "evaluationFrequency": {
+            "type": "string",
+            "defaultValue": "PT5M",
+            "metadata": {
+                "description": "how often the metric alert is evaluated represented in ISO 8601 duration format"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "microsoft.insights/scheduledqueryrules",
+            "apiVersion": "2021-08-01",
+            "name": "[parameters('alertName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "displayName": "[parameters('alertName')]",
+                "description": "[parameters('alertDescription')]",
+                "severity": "[parameters('alertSeverity')]",
+                "enabled": "[parameters('isEnabled')]",
+                "evaluationFrequency": "[parameters('evaluationFrequency')]",
+                "scopes": [
+                    "[resourceId('microsoft.operationalinsights/workspaces',parameters('workspaceName'))]"
+                ],
+                "targetResourceTypes": [
+                    "Microsoft.OperationalInsights/workspaces"
+                ],
+                "windowSize": "[parameters('windowSize')]", 
+                "criteria": {
+                    "allOf": [
+                        {
+                            "query": "Event | where (EventID == 6008 and Source ==\"EventLog\") or (EventID == 1074 and Source == \"User32\" and (RenderedDescription has \"shutdown\" or RenderedDescription has \"power off\")) \n",
+                            "timeAggregation": "[parameters('timeAggregation')]", 
+                            "dimensions": [
+                                {
+                                    "name": "Computer",
+                                    "operator": "Include",
+                                    "values": [
+                                        "*"
+                                    ]
+                                }
+                            ],
+                            "resourceIdColumn": "_ResourceId",
+                            "operator": "[parameters('operator')]",
+                            "threshold": "[parameters('threshold')]",
+                            "failingPeriods": {
+                                "numberOfEvaluationPeriods": "[parameters('numberOfEvaluationPeriods')]",
+                                "minFailingPeriodsToAlert": "[parameters('minFailingPeriodsToAlert')]"
+                            }
+                        }
+                    ]
+                },
+                "autoMitigate": "[parameters('autoMitigate')]",
+                "actions": {
+                    "actionGroups": [
+                        "[resourceId('microsoft.insights/actiongroups',parameters('actionGroupName'))]"
+                    ]
+                }
+            }
+        }
+    ]
+}

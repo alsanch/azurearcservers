@@ -11,7 +11,7 @@
         "convertRuleName": {
             "type": "string",
             "minLength": 1,
-            "defaultValue": "LogicalDisk Current Queue Length",
+            "defaultValue": "Heartbeat Missed",
             "metadata": {
                 "description": "Name of the rule to convert log to metric"
             }
@@ -41,7 +41,7 @@
         "convertRuleMetric": {
             "type": "string",
             "minLength": 1,
-            "defaultValue": "Average_Current Disk Queue Length",
+            "defaultValue": "Heartbeat",
             "metadata": {
                 "description": "Name of the metric once extraction done from logs."
             }
@@ -49,7 +49,7 @@
         "alertName": {
             "type": "string",
             "minLength": 1,
-            "defaultValue": "LogicalDisk Current Queue Length",
+            "defaultValue": "Heartbeat Missed",
             "metadata": {
                 "description": "Name of the alert"
             }
@@ -85,14 +85,14 @@
         "metricName": {
             "type": "string",
             "minLength": 1,
-            "defaultValue": "Average_Current Disk Queue Length",
+            "defaultValue": "Heartbeat",
             "metadata": {
                 "description": "Name of the metric used in the comparison to activate the alert."
             }
         },
         "operator": {
             "type": "string",
-            "defaultValue": "GreaterThan",
+            "defaultValue": "LessThanOrEqual",
             "allowedValues": [
                 "Equals",
                 "NotEquals",
@@ -107,7 +107,7 @@
         },
         "threshold": {
             "type": "string",
-            "defaultValue": "32",
+            "defaultValue": "0",
             "metadata": {
                 "description": "The threshold value at which the alert is activated."
             }
@@ -148,8 +148,7 @@
         }
     },
     "variables": {
-        "convertRuleTag": "hidden-link:",
-        "objectName": "LogicalDisk"
+        "convertRuleTag": "hidden-link:"
     },
     "resources": [
         {
@@ -178,13 +177,6 @@
                                     "operator": "Include",
                                     "values": [
                                         "*"
-                                    ]
-                                },
-                                {
-                                    "name": "ObjectName",
-                                    "operator": "Include",
-                                    "values": [
-                                        "[variables('objectName')]"
                                     ]
                                 }
                             ]
@@ -224,13 +216,6 @@
                                     "operator": "Include",
                                     "values": [
                                         "*"
-                                    ]
-                                },
-                                {
-                                    "name": "ObjectName",
-                                    "operator": "Include",
-                                    "values": [
-                                        "[variables('objectName')]"
                                     ]
                                 }
                             ],

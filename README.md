@@ -76,7 +76,17 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
 - The framework does not deploy a second log analytics connection from the Azure Arc Servers to the Security Log Analytis Workspace. (Work in Progress)
 
 ## Screenshots
-Coming soon...
+![image](https://user-images.githubusercontent.com/96136892/149989258-91061aae-c1f1-4624-9f16-c6ac5d37b43d.png)
+
+![image](https://user-images.githubusercontent.com/96136892/149988755-5070e7ff-e706-409c-b2a2-1934268c5217.png)
+
+![image](https://user-images.githubusercontent.com/96136892/149988907-35e7a699-99d2-4fb4-b702-4e74dab1f227.png)
+
+![image](https://user-images.githubusercontent.com/96136892/149988605-fba9f597-fb00-4908-be07-85851483b7f6.png)
+
+![image](https://user-images.githubusercontent.com/96136892/149989430-6f7f318e-d7cc-4e12-ba95-1f74fbba157b.png)
+
+![image](https://user-images.githubusercontent.com/96136892/149989168-526f84cb-fb3a-4c64-a3c3-87ef356f4545.png)
 
 ## References
 - **Azure Arc-enabled servers:** https://docs.microsoft.com/en-us/azure/azure-arc/servers/

@@ -11,7 +11,7 @@
         "convertRuleName": {
             "type": "string",
             "minLength": 1,
-            "defaultValue": "Commited Bytes in use Percent",
+            "defaultValue": "LogicalDisk Current Queue Length",
             "metadata": {
                 "description": "Name of the rule to convert log to metric"
             }
@@ -41,7 +41,7 @@
         "convertRuleMetric": {
             "type": "string",
             "minLength": 1,
-            "defaultValue": "Average_% Committed Bytes In Use",
+            "defaultValue": "Average_Current Disk Queue Length",
             "metadata": {
                 "description": "Name of the metric once extraction done from logs."
             }
@@ -49,7 +49,7 @@
         "alertName": {
             "type": "string",
             "minLength": 1,
-            "defaultValue": "Commited Bytes in use Percent",
+            "defaultValue": "LogicalDisk Current Queue Length",
             "metadata": {
                 "description": "Name of the alert"
             }
@@ -85,7 +85,7 @@
         "metricName": {
             "type": "string",
             "minLength": 1,
-            "defaultValue": "Average_% Committed Bytes In Use",
+            "defaultValue": "Average_Current Disk Queue Length",
             "metadata": {
                 "description": "Name of the metric used in the comparison to activate the alert."
             }
@@ -107,7 +107,7 @@
         },
         "threshold": {
             "type": "string",
-            "defaultValue": "80",
+            "defaultValue": "32",
             "metadata": {
                 "description": "The threshold value at which the alert is activated."
             }
@@ -149,7 +149,7 @@
     },
     "variables": {
         "convertRuleTag": "hidden-link:",
-        "objectName": "Memory"
+        "objectName": "LogicalDisk"
     },
     "resources": [
         {

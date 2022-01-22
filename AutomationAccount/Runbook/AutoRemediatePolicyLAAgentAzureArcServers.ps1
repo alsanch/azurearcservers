@@ -1,6 +1,6 @@
 <#
     .DESCRIPTION
-        Remediate Azure Policy "Configure Log Analytics extension on Azure Arc enabled Windows servers" with PowerShell 
+        Remediate Azure Policies with PowerShell 
         Based on https://adatum.no/azure/azure-policy/remediate-azure-policy-with-powershell
 
     .NOTES

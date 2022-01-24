@@ -284,12 +284,13 @@ if($deployAzurePolicies -eq $true)
         {
             New-AzDeployment -Name $deploymentName -location $location -TemplateFile $templateFile `
             -workspaceName $MonitorWSName -policyAssignmentName $azurePolicyName -resourceGroupID `
-            $resourceGroupID | Out-Null
+            $resourceGroupID -resourceGroup $resourceGroup  | Out-Null
         }
         elseif($policiesScope -eq "resourcegroup") {
             New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName $resourceGroup `
             -TemplateFile $templateFile -workspaceName $MonitorWSName -location $location `
-            -policyAssignmentName $azurePolicyName -resourceGroupID $resourceGroupID | Out-Null
+            -policyAssignmentName $azurePolicyName -resourceGroupID $resourceGroupID `
+            -resourceGroup $resourceGroup | Out-Null
         }
     }
 }

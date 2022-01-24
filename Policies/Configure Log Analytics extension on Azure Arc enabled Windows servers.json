@@ -14,6 +14,12 @@
                 "description": "Resource Group ID"
             }
         },
+        "resourceGroup": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource Group Name"
+            }
+        },
         "policyAssignmentName": {
             "type": "string",
             "defaultValue": "[guid(parameters('policyDefinitionID'), parameters('workspaceName'))]",
@@ -66,7 +72,7 @@
                 "nonComplianceMessages": [],
                 "parameters": {
                     "logAnalytics": {
-                        "value": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
+                        "value": "[concat(subscription().id,'/resourcegroups/',parameters('resourceGroup'),'/providers/microsoft.operationalinsights/workspaces/', parameters('workspaceName'))]"
                     }
                 }
             }

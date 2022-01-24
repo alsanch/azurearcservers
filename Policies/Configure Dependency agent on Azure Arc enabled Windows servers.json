@@ -14,6 +14,12 @@
                 "description": "Resource Group ID"
             }
         },
+        "resourceGroup": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource Group Name"
+            }
+        },
         "policyAssignmentName": {
             "type": "string",
             "defaultValue": "[guid(parameters('policyDefinitionID'), parameters('workspaceName'))]",

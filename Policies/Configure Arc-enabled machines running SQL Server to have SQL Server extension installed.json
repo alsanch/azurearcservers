@@ -14,10 +14,10 @@
                 "description": "Resource Group ID"
             }
         },
-        "resourceGroup": {
+        "monitorWSID": {
             "type": "string",
             "metadata": {
-                "description": "Resource Group Name"
+                "description": "Log Analytics workspace resource id"
             }
         },
         "policyAssignmentName": {

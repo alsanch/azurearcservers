@@ -261,6 +261,7 @@ if($deployAzurePolicies -eq $true)
     $policiesScope = $parametersFileInput.Scope
     # Parameter to make unique Microsoft.Authorization/roleAssignments name at tenant level
     $resourceGroupID = (Get-AzResourceGroup -Name $resourceGroup).ResourceId
+    $monitorWSID = (Get-AzResource -ResourceGroupName $resourceGroup -Name $MonitorWSName).ResourceId
 
     # Get the AzurePolicies ARM template files
     $azurePoliciesCollection = $(ls -Path $templateBasePath | Where-Object {$_.name -like "*.json"})
@@ -284,13 +285,13 @@ if($deployAzurePolicies -eq $true)
         {
             New-AzDeployment -Name $deploymentName -location $location -TemplateFile $templateFile `
             -workspaceName $MonitorWSName -policyAssignmentName $azurePolicyName -resourceGroupID `
-            $resourceGroupID -resourceGroup $resourceGroup  | Out-Null
+            $resourceGroupID -monitorWSID $monitorWSID  | Out-Null
         }
         elseif($policiesScope -eq "resourcegroup") {
             New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName $resourceGroup `
             -TemplateFile $templateFile -workspaceName $MonitorWSName -location $location `
             -policyAssignmentName $azurePolicyName -resourceGroupID $resourceGroupID `
-            -resourceGroup $resourceGroup | Out-Null
+            -monitorWSID $monitorWSID | Out-Null
         }
     }
 }

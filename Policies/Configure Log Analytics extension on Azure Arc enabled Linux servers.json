@@ -14,10 +14,10 @@
                 "description": "Resource Group ID"
             }
         },
-        "resourceGroup": {
+        "monitorWSID": {
             "type": "string",
             "metadata": {
-                "description": "Resource Group Name"
+                "description": "Log Analytics workspace resource id"
             }
         },
         "policyAssignmentName": {
@@ -72,7 +72,7 @@
                 "nonComplianceMessages": [],
                 "parameters": {
                     "logAnalytics": {
-                        "value": "[concat(subscription().id,'/resourcegroups/',parameters('resourceGroup'),'/providers/microsoft.operationalinsights/workspaces/', parameters('workspaceName'))]"
+                        "value": "[parameters('monitorWSID')]"
                     }
                 }
             }

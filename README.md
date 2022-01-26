@@ -11,7 +11,7 @@
 ## Overview
 Azure Arc enables you to manage your entire environment, with a single pane of glass, by projecting your existing non-Azure, on-premises, or other-cloud resources into Azure Resource Manager. The first step is to onboard your on-premises servers into Azure Arc. Once your on-premises servers are onboarded, you can benefit from native Azure services like Azure Policy, Azure Monitor, Azure Automation and Microsoft Defender for Cloud. This project helps you on automating the deployment of these Azure Services. 
 
-**Note:** the Azure Services deployed in this framework could also be used for Azure VMs as long as they are connected to the Log Analytics Workspace for Azure Monitor. 
+**Note:** the Azure Services deployed in this project could also be used for Azure VMs as long as they are connected to the Log Analytics Workspace for Azure Monitor. 
 
 ## What resources are deployed?
 - **Log Analytics Workspace for Azure Monitor**

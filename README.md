@@ -1,15 +1,15 @@
-# Azure Arc Servers - Minimum Valuable Product (MVP)
+# Azure Arc Servers - Hybrid Monitoring & Security
 ## Content
-- [Overview](https://github.com/alsanch/azurearcmvp#overview)
-- [What resources are deployed?](https://github.com/alsanch/azurearcmvp#what-resources-are-deployed)
-- [Requirements](https://github.com/alsanch/azurearcmvp#requirements)
-- [Deployment steps](https://github.com/alsanch/azurearcmvp#deployment-steps)
-- [Limitations](https://github.com/alsanch/azurearcmvp#limitations)
-- [Screenshots](https://github.com/alsanch/azurearcmvp#screenshots)
-- [References](https://github.com/alsanch/azurearcmvp#references)
+- [Overview](https://github.com/alsanch/azurearcservers#overview)
+- [What resources are deployed?](https://github.com/alsanch/azurearcservers#what-resources-are-deployed)
+- [Requirements](https://github.com/alsanch/azurearcservers#requirements)
+- [Deployment steps](https://github.com/alsanch/azurearcservers#deployment-steps)
+- [Limitations](https://github.com/alsanch/azurearcservers#limitations)
+- [Screenshots](https://github.com/alsanch/azurearcservers#screenshots)
+- [References](https://github.com/alsanch/azurearcservers#references)
 
 ## Overview
-Azure Arc enables you to manage your entire environment, with a single pane of glass, by projecting your existing non-Azure, on-premises, or other-cloud resources into Azure Resource Manager. The first step is to onboard your on-premises servers into Azure Arc. Once your on-premises servers are onboarded, you can benefit from native Azure services like Azure Policy, Azure Monitor, and Azure Automation. This project helps you on deploying a Minimum Valuable Product (MVP) of these Azure Services. 
+Azure Arc enables you to manage your entire environment, with a single pane of glass, by projecting your existing non-Azure, on-premises, or other-cloud resources into Azure Resource Manager. The first step is to onboard your on-premises servers into Azure Arc. Once your on-premises servers are onboarded, you can benefit from native Azure services like Azure Policy, Azure Monitor, Azure Automation and Microsoft Defender for Cloud. This project helps you on automating the deployment of these Azure Services. 
 
 **Note:** the Azure Services deployed in this framework could also be used for Azure VMs as long as they are connected to the Log Analytics Workspace for Azure Monitor. 
 
@@ -65,9 +65,9 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
     - **SecurityCollectionTier:** SecurityEvent logging level. Allowed values: "All", "Recommended", "Minimal", "None"
 2. Open PowerShell and **change your working directory** to the project directory
 3. Run **Login-AzAccount**
-4. Run **DeployAzureArcMVP.ps1**
+4. Run **DeployAzureArcServices.ps1**
 
-**Note**: you can enable/disable what's deployed in this framework by using the deployment variables within DeployAzureArcMVP.ps1.
+**Note**: you can enable/disable what's deployed in this framework by using the deployment variables within DeployAzureArcServices.ps1.
 
 ## Limitations
 - The following two Azure Policies will not work if the servers already have a connection to a Log Analytics workspace (multi-homing is not supported in the MMA extension)

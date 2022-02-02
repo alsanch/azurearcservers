@@ -58,7 +58,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
 1. **Provide the required parameters in the Parameters.csv file:**
     - **Subscription:** name of your Azure Subscription
     - **ResourceGroup:** name of an existing or new resource group where the framework is deployed
-    - **NamingPrefix:** lowercase prefix used in the name of the deployed resources
+    - **NamingPrefix:** three letters lowercase prefix used in the name of the deployed resources
     - **Location:** Azure Region where the framework is deployed
     - **Email:** email account used in the Action Group for alerts and in the Microsoft Defender for Cloud notification settings
     - **Scope:** scope at which the Azure Policies and the Automation Account managed identity permissions are assigned. Allowed values: "subscription", "resourcegroup"

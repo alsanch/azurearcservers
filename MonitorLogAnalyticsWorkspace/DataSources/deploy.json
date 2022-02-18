@@ -6,6 +6,9 @@
             "type": "string"
         }
     },
+    "variables": {
+        "intervalSeconds": 60
+    },
     "resources": [
         {
             "type": "Microsoft.OperationalInsights/workspaces/datasources",
@@ -49,7 +52,7 @@
             "properties": {
                 "objectName": "Processor",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "% Processor Time"
             }
         },
@@ -61,7 +64,7 @@
             "properties": {
                 "objectName": "Process",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "% Processor Time"
             }
         },
@@ -73,7 +76,7 @@
             "properties": {
                 "objectName": "LogicalDisk",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "% Processor Time"
             }
         },
@@ -85,7 +88,7 @@
             "properties": {
                 "objectName": "LogicalDisk",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Avg. Disk sec/Read"
             }
         },
@@ -97,7 +100,7 @@
             "properties": {
                 "objectName": "LogicalDisk",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Avg. Disk sec/Write"
             }
         },
@@ -109,7 +112,7 @@
             "properties": {
                 "objectName": "LogicalDisk",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Current Disk Queue Length"
             }
         },
@@ -121,7 +124,7 @@
             "properties": {
                 "objectName": "LogicalDisk",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Disk Reads/sec"
             }
         },
@@ -133,7 +136,7 @@
             "properties": {
                 "objectName": "LogicalDisk",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Disk Transfers/sec"
             }
         },
@@ -145,7 +148,7 @@
             "properties": {
                 "objectName": "LogicalDisk",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Disk Writes/sec"
             }
         },
@@ -157,7 +160,7 @@
             "properties": {
                 "objectName": "LogicalDisk",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Free Megabytes"
             }
         },
@@ -169,7 +172,7 @@
             "properties": {
                 "objectName": "Memory",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "% Committed Bytes In Use"
             }
         },
@@ -181,7 +184,7 @@
             "properties": {
                 "objectName": "Memory",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Available MBytes"
             }
         },
@@ -193,7 +196,7 @@
             "properties": {
                 "objectName": "Network Adapter",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Bytes Received/sec"
             }
         },
@@ -205,7 +208,7 @@
             "properties": {
                 "objectName": "Network Adapter",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Bytes Sent/sec"
             }
         },
@@ -217,7 +220,7 @@
             "properties": {
                 "objectName": "Network Adapter",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Bytes Total/sec"
             }
         },
@@ -229,7 +232,7 @@
             "properties": {
                 "objectName": "System",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "counterName": "Processor Queue Length"
             }
         },
@@ -241,7 +244,7 @@
             "properties": {
                 "objectName": "Logical Disk",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "performanceCounters": [
                     {
                         "counterName": "% Used Inodes"
@@ -272,7 +275,7 @@
             "properties": {
                 "objectName": "Memory",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "performanceCounters": [
                     {
                         "counterName": "% Used Memory"
@@ -294,7 +297,7 @@
             "properties": {
                 "objectName": "Network",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "performanceCounters": [
                     {
                         "counterName": "Total Bytes Received"
@@ -313,7 +316,7 @@
             "properties": {
                 "objectName": "Processor",
                 "instanceName": "*",
-                "intervalSeconds": 60,
+                "intervalSeconds": "[variables('intervalSeconds')]",
                 "performanceCounters": [
                     {
                         "counterName": "% Privileged Time"

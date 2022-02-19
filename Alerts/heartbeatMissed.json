@@ -228,7 +228,7 @@
                 },
                 "autoMitigate": true,
                 "targetResourceType": "Microsoft.OperationalInsights/workspaces",
-                "targetResourceRegion": "westeurope",
+                "targetResourceRegion": "[parameters('location')]",
                 "actions": [
                     {
                         "actionGroupId": "[resourceId('microsoft.insights/actiongroups',parameters('actionGroupName'))]"

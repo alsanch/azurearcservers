@@ -4,7 +4,7 @@
     "parameters": {
         "dashboardName": {
             "type": "string",
-            "defaultValue": "Azure Arc Dashboard"
+            "defaultValue": "Azure Arc-enabled servers"
         },
         "location": {
             "type": "string",
@@ -155,7 +155,7 @@
                                         },
                                         {
                                             "name": "Location",
-                                            "value": "westeurope",
+                                            "value": "[parameters('location')]",
                                             "isOptional": true
                                         }
                                     ],
@@ -308,7 +308,7 @@
                                         },
                                         {
                                             "name": "Location",
-                                            "value": "westeurope",
+                                            "value": "[parameters('location')]",
                                             "isOptional": true
                                         }
                                     ],
@@ -400,7 +400,7 @@
                                         },
                                         {
                                             "name": "Location",
-                                            "value": "westeurope",
+                                            "value": "[parameters('location')]",
                                             "isOptional": true
                                         }
                                     ],
@@ -479,7 +479,7 @@
                                         },
                                         {
                                             "name": "Location",
-                                            "value": "westeurope",
+                                            "value": "[parameters('location')]",
                                             "isOptional": true
                                         }
                                     ],

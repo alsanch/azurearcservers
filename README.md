@@ -48,7 +48,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
 **Note**: for **Microsoft Sentinel** deployment, please, refer to the project **Azure Sentinel All In One** (https://github.com/Azure/Azure-Sentinel/tree/master/Tools/Sentinel-All-In-One). You could deploy it on the previous Log Analytics Workspace for Security Data.
 
 ## Requirements
-- **Tested in Powershell 5.1**
+- **Tested in Powershell 5.1 and Azure Az 7.0.0 PowerShell module**
 - **Azure Permissions:** Owner
     - Role required to assign the Resource Policy Contributor role to the Automation Account managed identity
     - Required at subscription level if Microsoft Defender for Cloud is deployed. Otherwise, at resource group level

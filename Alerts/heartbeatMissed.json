@@ -56,7 +56,7 @@
         },
         "alertDescription": {
             "type": "string",
-            "defaultValue": "",
+            "defaultValue": "[parameters('alertName')]",
             "metadata": {
                 "description": "Description of alert"
             }

@@ -5,7 +5,11 @@
 
     .NOTES
         AUTHOR: Alejandro Sanchez Gomez
-        LASTEDIT: Nov 22, 2021
+        LASTEDIT: May 11, 2022
+
+	THIS SAMPLE CODE AND ANY RELATED INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+    EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
+	MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 #>
 
 Param
@@ -43,6 +47,9 @@ else
     $nonCompliantPolicies = Get-AzPolicyState | Where-Object { $_.ComplianceState -eq "NonCompliant" -and $_.PolicyDefinitionName -in $policyDefinitionNames -and $_.PolicyDefinitionAction -eq "deployIfNotExists" }
 }
 
+Write-Output "Non-compliant policies:"
+Write-Output $nonCompliantPolicies
+
 # loop through and start individual tasks per policy 
 foreach ($policy in $nonCompliantPolicies) {
 
@@ -50,17 +57,19 @@ foreach ($policy in $nonCompliantPolicies) {
     
     # Policy assigned at RG level -- Remedation done at RG level
     if($policy.PolicyAssignmentId -like "*resourcegroups*"){
+        Write-Output "Remediating $($policy.PolicyDefinitionReferenceId) at resource group level..."
         $scope = $policy.PolicyAssignmentId.Split("/")[4]
-        Start-AzPolicyRemediation -Name $remediationName -ResourceGroupName $scope -PolicyAssignmentId $policy.PolicyAssignmentId -ResourceDiscoveryMode ReEvaluateCompliance
+        Start-AzPolicyRemediation -Name $remediationName -ResourceGroupName $scope -PolicyAssignmentId $policy.PolicyAssignmentId -PolicyDefinitionReferenceId $policy.PolicyDefinitionReferenceId -ResourceDiscoveryMode ReEvaluateCompliance
     }
     # Policy assigned at MG level -- Remedation done at MG level
     elseif($policy.PolicyAssignmentId -like "*managementGroups*") {
+        Write-Output "Remediating $($policy.PolicyDefinitionReferenceId) at management group level..."
         $scope = $policy.PolicyAssignmentId.Split("/")[4]
-        Start-AzPolicyRemediation -Name $remediationName -ManagementGroupName $scope -PolicyAssignmentId $policy.PolicyAssignmentId -ResourceDiscoveryMode ReEvaluateCompliance
-    
+        Start-AzPolicyRemediation -Name $remediationName -ManagementGroupName $scope -PolicyAssignmentId $policy.PolicyAssignmentId -PolicyDefinitionReferenceId $policy.PolicyDefinitionReferenceId -ResourceDiscoveryMode ReEvaluateCompliance    
     }
     # Policy assigned at subscription level -- Remedation done at subscription level
     else {
-        Start-AzPolicyRemediation -Name $remediationName -PolicyAssignmentId $policy.PolicyAssignmentId -ResourceDiscoveryMode ReEvaluateCompliance
+        Write-Output "Remediating $($policy.PolicyDefinitionReferenceId) at subscription level..."
+        Start-AzPolicyRemediation -Name $remediationName -PolicyAssignmentId $policy.PolicyAssignmentId -PolicyDefinitionReferenceId $policy.PolicyDefinitionReferenceId -ResourceDiscoveryMode ReEvaluateCompliance
     }
 }

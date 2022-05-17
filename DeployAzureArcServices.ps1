@@ -145,7 +145,7 @@ if ($deployAutomationAccount -eq $true) {
     # Get automation account managed identity and assign permissions to remediate policies at subscription/resource group level
 
     #Wait for the system managed identity to be available
-    Write-Host "Waiting for the automation account system managed identiy... " -NoNewline
+    Write-Host "Waiting for the automation account system managed identity... " -NoNewline
     while ($null -eq (Get-AzAutomationAccount -ResourceGroupName $resourceGroup -Name $automationAccountName -ErrorAction SilentlyContinue).Identity.PrincipalId) {
         Write-Host "." -NoNewline
         Start-Sleep -Seconds 5   

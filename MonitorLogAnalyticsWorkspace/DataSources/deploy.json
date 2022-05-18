@@ -191,7 +191,7 @@
         {
             "apiVersion": "2020-08-01",
             "type": "Microsoft.OperationalInsights/workspaces/datasources",
-            "name": "[concat(parameters('workspaceName'), '/', 'WindowsPerfMemoryAvailableMBytes')]",
+            "name": "[concat(parameters('workspaceName'), '/', 'WindowsPerfMemoryPagesSec')]",
             "kind": "WindowsPerformanceCounter",
             "properties": {
                 "objectName": "Memory",

@@ -107,7 +107,7 @@
         },
         "threshold": {
             "type": "string",
-            "defaultValue": "32",
+            "defaultValue": "2",
             "metadata": {
                 "description": "The threshold value at which the alert is activated."
             }

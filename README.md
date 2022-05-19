@@ -1,4 +1,4 @@
-# Azure Arc Servers - Hybrid Monitoring & Security
+# Azure Arc-enabled servers - Hybrid Monitoring & Security
 ## Content
 - [Overview](https://github.com/alsanch/azurearcservers#overview)
 - [What resources are deployed?](https://github.com/alsanch/azurearcservers#what-resources-are-deployed)

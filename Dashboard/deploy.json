@@ -343,7 +343,7 @@
                                         },
                                         {
                                             "name": "ConfigurationId",
-                                            "value": "[resourceId('Microsoft.Insights/workbooks/', guid('Event Logs'))]",
+                                            "value": "[resourceId('Microsoft.Insights/workbooks/', guid('Windows Event Logs'))]",
                                             "isOptional": true
                                         },
                                         {

@@ -31,14 +31,14 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
 - **Azure Monitor action group with an email action**
 - **Azure Monitor alerts:** heartbeatMissed; logicalDiskAvgDiskSecRead; logicalDiskAvgDiskSecWrite; logicalDiskCurrentQueueLength; logicalDiskFreeSpacePercent; logicalDiskIdleTimePercent; memoryAvailableMBytes; memoryCommitedBytesInUsePercent; memoryPagesPerSec; processorTimePercent; unexpectedSystemShutdown
 - **Azure Workbooks:** AlertsConsole; OSPerformanceAndCapacity; WindowsEvents; WindowsUpdates
-- **Azure Dashboard that provides a monitoring overview for your Azure Arc Servers**
+- **Azure Dashboard that provides a monitoring overview for your Azure Arc-enabled servers**
 - **Azure Policies, with auto-remediation enabled and a system managed identity assigned:**
     - Configure Log Analytics extension on Azure Arc enabled Windows servers
     - Configure Log Analytics extension on Azure Arc enabled Linux servers
     - Configure Dependency agent on Azure Arc enabled Windows servers
     - Configure Dependency agent on Azure Arc enabled Linux servers
     - Configure Arc-enabled machines running SQL Server to have SQL Server extension installed
-- **Required settings for Microsoft Defender for Cloud & Azure Arc Servers**
+- **Required settings for Microsoft Defender for Cloud & Azure Arc-enabled servers**
     - Deploys a Log Analyics Workspace for Security data
     - Enables the Security insights solution in the Log Analyics Workspace for Security data
     - Enables the collection of Security Events in the Log Analytics Workspace for Security data
@@ -73,7 +73,7 @@ Azure Arc enables you to manage your entire environment, with a single pane of g
 - The following two Azure Policies will not work if the servers already have a connection to a Log Analytics workspace (multi-homing is not supported in the MMA extension)
     - Configure Log Analytics extension on Azure Arc enabled Windows servers
     - Configure Log Analytics extension on Azure Arc enabled Linux servers
-- The framework does not deploy a second log analytics connection from the Azure Arc Servers to the Security Log Analytis Workspace. (Work in Progress)
+- The framework does not deploy a second log analytics connection from the Azure Arc-enabled servers to the Security Log Analytis Workspace. (Work in Progress)
 
 ## Screenshots
 ![image](https://user-images.githubusercontent.com/96136892/149989258-91061aae-c1f1-4624-9f16-c6ac5d37b43d.png)
